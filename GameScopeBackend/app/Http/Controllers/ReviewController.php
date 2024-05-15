@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Review;
 use Illuminate\Http\Request;
+use App\Models\Review;
 
 class ReviewController extends Controller
 {
@@ -14,33 +14,41 @@ class ReviewController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $validatedData = $request->validate([
             'user_id' => 'required|exists:users,id',
             'game_id' => 'required|exists:video_games,id',
             'text' => 'required|string',
-            'rating' => 'required|integer|min:1|max:5',
-            'publication_date' => 'required|date'
+            'rating' => 'required|integer|min:1|max:10',
         ]);
 
-        $review = Review::create($validated);
+        $review = Review::create($validatedData);
+
         return response()->json($review, 201);
     }
 
-    public function show($id)
+    public function show(Review $review)
     {
-        return Review::findOrFail($id);
+        return $review;
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Review $review)
     {
-        $review = Review::findOrFail($id);
-        $review->update($request->all());
-        return response()->json($review, 200);
+        $validatedData = $request->validate([
+            'user_id' => 'sometimes|required|exists:users,id',
+            'game_id' => 'sometimes|required|exists:video_games,id',
+            'text' => 'sometimes|required|string',
+            'rating' => 'sometimes|required|integer|min:1|max:10',
+        ]);
+
+        $review->update($validatedData);
+
+        return response()->json($review);
     }
 
-    public function destroy($id)
+    public function destroy(Review $review)
     {
-        Review::destroy($id);
+        $review->delete();
+
         return response()->json(null, 204);
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\VideoGame;
 use Illuminate\Http\Request;
+use App\Models\VideoGame;
 
 class VideoGameController extends Controller
 {
@@ -15,32 +15,43 @@ class VideoGameController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|max:255',
-            'developer' => 'required|max:255',
-            'genre' => 'required|max:255',
-            'platform' => 'required|max:255',
-            'release_year' => 'required|digits:4'
+            'name' => 'required|string|max:255',
+            'developer' => 'required|string|max:255',
+            'genre' => 'required|string|max:255',
+            'platform' => 'required|string|max:255',
+            'release_year' => 'required|integer'
         ]);
 
         $game = VideoGame::create($validatedData);
+
         return response()->json($game, 201);
     }
 
-    public function show($id)
+    public function show(VideoGame $game)
     {
-        return VideoGame::findOrFail($id);
+        return $game;
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, VideoGame $game)
     {
-        $game = VideoGame::findOrFail($id);
-        $game->update($request->all());
-        return response()->json($game, 200);
+        $validatedData = $request->validate([
+            'name' => 'sometimes|required|string|max:255',
+            'developer' => 'sometimes|required|string|max:255',
+            'genre' => 'sometimes|required|string|max:255',
+            'platform' => 'sometimes|required|string|max:255',
+            'release_year' => 'sometimes|required|integer'
+        ]);
+
+        $game->update($validatedData);
+
+        return response()->json($game);
     }
 
-    public function destroy($id)
+    public function destroy(VideoGame $game)
     {
-        VideoGame::destroy($id);
+        $game->delete();
+
         return response()->json(null, 204);
     }
 }
+

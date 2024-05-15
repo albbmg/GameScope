@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comparison;
 use Illuminate\Http\Request;
+use App\Models\Comparison;
 
 class ComparisonController extends Controller
 {
@@ -14,24 +14,39 @@ class ComparisonController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $validatedData = $request->validate([
             'game_id1' => 'required|exists:video_games,id',
             'game_id2' => 'required|exists:video_games,id',
-            'details' => 'required|string'
+            'details' => 'required|string',
         ]);
 
-        $comparison = Comparison::create($validated);
+        $comparison = Comparison::create($validatedData);
+
         return response()->json($comparison, 201);
     }
 
-    public function show($id)
+    public function show(Comparison $comparison)
     {
-        return Comparison::findOrFail($id);
+        return $comparison;
     }
 
-    public function destroy($id)
+    public function update(Request $request, Comparison $comparison)
     {
-        Comparison::destroy($id);
+        $validatedData = $request->validate([
+            'game_id1' => 'sometimes|required|exists:video_games,id',
+            'game_id2' => 'sometimes|required|exists:video_games,id',
+            'details' => 'sometimes|required|string',
+        ]);
+
+        $comparison->update($validatedData);
+
+        return response()->json($comparison);
+    }
+
+    public function destroy(Comparison $comparison)
+    {
+        $comparison->delete();
+
         return response()->json(null, 204);
     }
 }

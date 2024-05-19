@@ -13,7 +13,7 @@ Route::get('/search', [VideoGameController::class, 'search']);
 Route::get('/reviews', [ReviewController::class, 'index']);
 Route::get('/reviews/{id}', [ReviewController::class, 'show']);
 
-Route::post('/register', [AuthController::class, 'register'])->name('register'); // Añadir esta línea
+Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum')->name('logout');
 Route::get('/user', [AuthController::class, 'user'])->middleware('auth:sanctum')->name('user');

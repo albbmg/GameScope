@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, HasApiTokens, HasFactory;
 
-    public $timestamps = false; // Desactivar timestamps si no los deseas
+    public $timestamps = false;
 
     protected $fillable = [
         'username', 'email', 'password', 'privacy_settings', 'role'
@@ -19,10 +21,14 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    // Relación uno a muchos con Review
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function comparisons()
+    {
+        return $this->hasMany(Comparison::class);
     }
 
     protected $casts = [

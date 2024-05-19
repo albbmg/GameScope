@@ -1,0 +1,28 @@
+<div class="container">
+  <h1>Listado de todos los videojuegos</h1>
+  <button class="compare-button" (click)="toggleCompareMode()">COMPARAR</button>
+  <div class="video-games-container">
+    <div class="video-game-card"
+         *ngFor="let game of displayedVideoGames"
+         [class.selected]="isGameSelected(game)"
+         (click)="compareMode ? toggleSelectGame(game) : null">
+      <a [routerLink]="['/video-game', game.id]" *ngIf="!compareMode">
+        <img [src]="game.image || 'path/to/default-image.jpg'" alt="{{ game.name }}" class="game-image">
+        <h3>{{ game.name }}</h3>
+        <p>{{ game.genre }}</p>
+        <div class="rating">
+          <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= game.rating">★</span>
+        </div>
+      </a>
+      <ng-container *ngIf="compareMode">
+        <img [src]="game.image || 'path/to/default-image.jpg'" alt="{{ game.name }}" class="game-image">
+        <h3>{{ game.name }}</h3>
+        <p>{{ game.genre }}</p>
+        <div class="rating">
+          <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= game.rating">★</span>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <button class="view-more" (click)="loadMoreGames()">VER MÁS</button>
+</div>

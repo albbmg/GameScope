@@ -6,16 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up()
     {
         Schema::create('comparisons', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('game_id1')->constrained('video_games')->onDelete('cascade');
-            $table->foreignId('game_id2')->constrained('video_games')->onDelete('cascade');
-            $table->text('details');
+            $table->foreignId('game_id1')->constrained('video_games');
+            $table->foreignId('game_id2')->constrained('video_games');
+            $table->text('details')->nullable();
             $table->timestamps();
         });
     }
@@ -24,4 +21,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('comparisons');
     }
+    
 };

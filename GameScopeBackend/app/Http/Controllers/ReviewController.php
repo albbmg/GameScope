@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Review;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
@@ -14,39 +15,35 @@ class ReviewController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'user_id' => 'required|exists:users,id',
+        $request->validate([
             'game_id' => 'required|exists:video_games,id',
             'text' => 'required|string',
-            'rating' => 'required|integer|min:1|max:10',
+            'rating' => 'required|integer|min:1|max:10'
         ]);
 
-        $review = Review::create($validatedData);
+        $review = Review::create(array_merge($request->all(), ['user_id' => Auth::id()]));
 
         return response()->json($review, 201);
     }
 
-    public function show(Review $review)
+    public function show($id)
     {
-        return $review;
+        return Review::findOrFail($id);
     }
 
-    public function update(Request $request, Review $review)
+    public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'user_id' => 'sometimes|required|exists:users,id',
-            'game_id' => 'sometimes|required|exists:video_games,id',
-            'text' => 'sometimes|required|string',
-            'rating' => 'sometimes|required|integer|min:1|max:10',
-        ]);
+        $review = Review::findOrFail($id);
+        $this->authorize('update', $review);
+        $review->update($request->all());
 
-        $review->update($validatedData);
-
-        return response()->json($review);
+        return response()->json($review, 200);
     }
 
-    public function destroy(Review $review)
+    public function destroy($id)
     {
+        $review = Review::findOrFail($id);
+        $this->authorize('delete', $review);
         $review->delete();
 
         return response()->json(null, 204);

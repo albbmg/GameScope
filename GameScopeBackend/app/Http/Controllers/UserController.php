@@ -2,62 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index()
+    public function show($id)
     {
-        return User::all();
+        return User::findOrFail($id);
     }
 
-    public function store(Request $request)
+    public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'username' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-            'privacy_settings' => 'required|boolean',
-            'role' => 'in:user,admin'
-        ]);
+        $user = User::findOrFail($id);
+        $this->authorize('update', $user);
+        $user->update($request->all());
 
-        $validatedData['password'] = Hash::make($validatedData['password']);
-        $user = User::create($validatedData);
-
-        return response()->json($user, 201);
+        return response()->json($user, 200);
     }
 
-    public function show(User $user)
+    public function destroy($id)
     {
-        return $user;
-    }
-
-    public function update(Request $request, User $user)
-    {
-        $validatedData = $request->validate([
-            'username' => 'sometimes|required|string|max:255',
-            'email' => 'sometimes|required|string|email|max:255|unique:users,email,' . $user->id,
-            'password' => 'sometimes|required|string|min:8',
-            'privacy_settings' => 'sometimes|required|boolean',
-            'role' => 'in:user,admin'
-        ]);
-
-        if (isset($validatedData['password'])) {
-            $validatedData['password'] = Hash::make($validatedData['password']);
-        }
-
-        $user->update($validatedData);
-
-        return response()->json($user);
-    }
-
-    public function destroy(User $user)
-    {
+        $user = User::findOrFail($id);
+        $this->authorize('delete', $user);
         $user->delete();
 
         return response()->json(null, 204);
     }
 }
-

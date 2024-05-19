@@ -1,0 +1,35 @@
+<div class="compare-container" *ngIf="game1 && game2">
+  <h1>Comparativa de videojuegos</h1>
+  <div class="games-comparison">
+    <div class="game-details">
+      <h2>{{ game1.name }}</h2>
+      <img [src]="game1.image || 'path/to/default-image.jpg'" alt="{{ game1.name }}">
+      <div class="ratings">
+        <p>Calificación: {{ game1.rating }}/5</p>
+        <div class="stars">
+          <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= game1.rating">★</span>
+        </div>
+        <div class="criteria">
+          <p>Gráficos: {{ game1.graphics }}/10</p>
+          <p>Jugabilidad: {{ game1.gameplay }}/10</p>
+          <p>Historia: {{ game1.story }}/10</p>
+        </div>
+      </div>
+    </div>
+    <div class="game-details">
+      <h2>{{ game2.name }}</h2>
+      <img [src]="game2.image || 'path/to/default-image.jpg'" alt="{{ game2.name }}">
+      <div class="ratings">
+        <p>Calificación: {{ game2.rating }}/5</p>
+        <div class="stars">
+          <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= game2.rating">★</span>
+        </div>
+        <div class="criteria">
+          <p>Gráficos: {{ game2.graphics }}/10</p>
+          <p>Jugabilidad: {{ game2.gameplay }}/10</p>
+          <p>Historia: {{ game2.story }}/10</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

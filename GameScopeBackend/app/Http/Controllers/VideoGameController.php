@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\VideoGame;
+use Illuminate\Http\Request;
 
 class VideoGameController extends Controller
 {
@@ -14,44 +14,55 @@ class VideoGameController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'name' => 'required|string|max:255',
+            'description' => 'required|string|max:500',
             'developer' => 'required|string|max:255',
             'genre' => 'required|string|max:255',
             'platform' => 'required|string|max:255',
             'release_year' => 'required|integer'
         ]);
 
-        $game = VideoGame::create($validatedData);
+        $videoGame = VideoGame::create($request->all());
 
-        return response()->json($game, 201);
+        return response()->json($videoGame, 201);
     }
 
-    public function show(VideoGame $game)
+    public function show($id)
     {
-        return $game;
+        return VideoGame::findOrFail($id);
     }
 
-    public function update(Request $request, VideoGame $game)
+    public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
-            'name' => 'sometimes|required|string|max:255',
-            'developer' => 'sometimes|required|string|max:255',
-            'genre' => 'sometimes|required|string|max:255',
-            'platform' => 'sometimes|required|string|max:255',
-            'release_year' => 'sometimes|required|integer'
-        ]);
+        $videoGame = VideoGame::findOrFail($id);
+        $videoGame->update($request->all());
 
-        $game->update($validatedData);
-
-        return response()->json($game);
+        return response()->json($videoGame, 200);
     }
 
-    public function destroy(VideoGame $game)
+    public function search(Request $request)
     {
-        $game->delete();
+        $query = VideoGame::query();
+
+        if ($request->has('searchQuery')) {
+            $query->where('name', 'like', '%' . $request->input('searchQuery') . '%');
+        }
+
+        if ($request->has('releaseYear')) {
+            $query->where('release_year', $request->input('releaseYear'));
+        }
+
+        $videoGames = $query->get();
+
+        return response()->json($videoGames);
+    }
+
+    public function destroy($id)
+    {
+        $videoGame = VideoGame::findOrFail($id);
+        $videoGame->delete();
 
         return response()->json(null, 204);
     }
 }
-

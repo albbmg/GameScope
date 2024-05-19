@@ -1,0 +1,12 @@
+<div class="video-games-container">
+  <div class="video-game-card" *ngFor="let game of videoGames">
+    <a [routerLink]="['/video-game', game.id]">
+      <img [src]="game.image" alt="{{ game.name }}" class="game-image">
+      <h3>{{ game.name }}</h3>
+      <p>{{ game.genre }}</p>
+      <div class="rating">
+        <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= game.rating">★</span>
+      </div>
+    </a>
+  </div>
+</div>

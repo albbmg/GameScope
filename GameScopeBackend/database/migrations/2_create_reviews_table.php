@@ -10,11 +10,10 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('game_id')->constrained('video_games')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('game_id')->constrained('video_games');
             $table->text('text');
-            $table->tinyInteger('rating');
-            $table->timestamp('publication_date')->useCurrent();
+            $table->integer('rating');
             $table->timestamps();
         });
     }
@@ -23,4 +22,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('reviews');
     }
+    
 };

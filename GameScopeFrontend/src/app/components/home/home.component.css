@@ -1,0 +1,40 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .banner {
+    background-color: #f8f8f8;
+    padding: 50px 20px;
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  .banner h1 {
+    margin: 0;
+    font-size: 48px;
+  }
+  
+  .banner p {
+    margin: 10px 0 0;
+    font-size: 24px;
+  }
+  
+  .top-video-games {
+    margin-top: 20px;
+  }
+  
+  .top-video-games h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .view-more {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  

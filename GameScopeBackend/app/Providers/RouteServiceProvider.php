@@ -10,20 +10,8 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    /**
-     * 
-     *
-     * Definimos URLs.
-     *
-     * @var string
-     */
     protected $namespace = 'App\\Http\\Controllers';
 
-    /**
-     * Definimos rutas.
-     *
-     * @return void
-     */
     public function boot()
     {
         $this->configureRateLimiting();
@@ -40,11 +28,6 @@ class RouteServiceProvider extends ServiceProvider
         });
     }
 
-    /**
-     * Configuramos rate limiters.
-     *
-     * @return void
-     */
     protected function configureRateLimiting()
     {
         RateLimiter::for('api', function (Request $request) {

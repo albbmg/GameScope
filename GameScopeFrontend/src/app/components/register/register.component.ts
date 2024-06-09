@@ -23,12 +23,12 @@ export class RegisterComponent {
       phone: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['', Validators.required]
+      password_confirmation: ['', Validators.required]
     }, { validator: this.passwordMatchValidator });
   }
 
   passwordMatchValidator(form: FormGroup) {
-    return form.get('password')?.value === form.get('confirmPassword')?.value ? null : { mismatch: true };
+    return form.get('password')?.value === form.get('password_confirmation')?.value ? null : { mismatch: true };
   }
 
   onSubmit(): void {

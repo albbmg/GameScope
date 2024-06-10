@@ -11,6 +11,7 @@ import { SearchComponent } from './components/search/search.component';
 import { VideoGamesComponent } from './components/video-games/video-games.component';
 import { VideoGameDetailComponent } from './components/video-game-detail/video-game-detail.component';
 import { ProtectedComponent } from './components/protected/protected.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -23,6 +24,8 @@ export const routes: Routes = [
   { path: 'video-games', component: VideoGamesComponent },
   { path: 'video-game/:id', component: VideoGameDetailComponent },
   { path: 'protected', component: ProtectedComponent, canActivate: [AuthGuard] },
+  { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard] },
+  { path: '**', redirectTo: '' }  // Ruta comodín para redirigir rutas no encontradas
 ];
 
 export const appConfig: ApplicationConfig = {

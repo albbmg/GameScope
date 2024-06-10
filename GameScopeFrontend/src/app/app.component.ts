@@ -14,6 +14,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { VideoGamesComponent } from './components/video-games/video-games.component';
 import { VideoGameDetailComponent } from './components/video-game-detail/video-game-detail.component';
 import { ProtectedComponent } from './components/protected/protected.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 @Component({
   selector: 'app-root',
@@ -34,7 +35,8 @@ import { ProtectedComponent } from './components/protected/protected.component';
     SearchComponent,
     VideoGamesComponent,
     VideoGameDetailComponent,
-    ProtectedComponent
+    ProtectedComponent,
+    UserProfileComponent
   ]
 })
 export class AppComponent {

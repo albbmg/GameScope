@@ -1,0 +1,19 @@
+<!-- user-profile.component.html -->
+<div>
+  <h2>Perfil de Usuario</h2>
+  <p><strong>Nombre:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+  <p><strong>Email:</strong> {{ user.email }}</p>
+  <p><strong>Teléfono:</strong> {{ user.phone }}</p>
+  
+  <h3>Favoritos</h3>
+  <div *ngFor="let game of favoriteGames">
+    <p>{{ game.title }} - {{ game.description }} - {{ game.rating }} estrellas</p>
+  </div>
+
+  <h3>Lista de Pendientes</h3>
+  <div *ngFor="let game of pendingGames">
+    <p>{{ game.title }} - {{ game.description }} - {{ game.rating }} estrellas</p>
+  </div>
+
+  <button (click)="logout()">Cerrar Sesión</button>
+</div>

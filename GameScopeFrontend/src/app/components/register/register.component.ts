@@ -33,11 +33,9 @@ export class RegisterComponent {
 
   onSubmit(): void {
     if (this.registerForm.valid) {
-      console.log('Form Data:', this.registerForm.value);
       this.authService.register(this.registerForm.value).subscribe(
         response => {
-          console.log('User registered successfully:', response);
-          this.router.navigate(['/login']);
+          this.router.navigate(['/user-profile']);
         },
         error => {
           console.error('Error registering user:', error);

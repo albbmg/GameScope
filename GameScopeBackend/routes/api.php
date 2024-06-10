@@ -6,6 +6,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoGameController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ComparisonController;
+use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\PendingController;
 
 Route::get('/video-games', [VideoGameController::class, 'index']);
 Route::get('/video-games/{id}', [VideoGameController::class, 'show']);
@@ -28,9 +30,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/comparisons', [ComparisonController::class, 'store']);
     Route::put('/comparisons/{id}', [ComparisonController::class, 'update']);
     Route::delete('/comparisons/{id}', [ComparisonController::class, 'destroy']);
-    
+
+    Route::post('/favorites/add', [FavoriteController::class, 'add']);
+    Route::post('/pending/add', [PendingController::class, 'add']);
+
     Route::get('/user/profile', [UserController::class, 'getProfile']);
     Route::put('/user/profile', [UserController::class, 'updateProfile']);
     Route::post('/user/profile-image', [UserController::class, 'uploadProfileImage']);
 });
-

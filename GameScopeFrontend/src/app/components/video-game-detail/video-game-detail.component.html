@@ -1,29 +1,38 @@
 <div class="container" *ngIf="game">
-    <h1>{{ game.name }}</h1>
-    <div class="details-container">
-      <div class="image-container">
-        <img [src]="game.image || 'path/to/default-image.jpg'" alt="{{ game.name }}">
-      </div>
-      <div class="info-container">
-        <h2>DESCRIPCIÓN</h2>
-        <p>{{ game.description }}</p>
-        <div class="ratings">
-          <div class="rating">
-            <h3>CALIFICACIONES</h3>
-            <p>{{ game.rating }}/5</p>
-            <div class="stars">
-              <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= game.rating">★</span>
-            </div>
-          </div>
-          <div class="reviews">
-            <h3>RESEÑAS</h3>
-            <div class="stars">
-              <span *ngFor="let star of [1,2,3,4,5]" class="star filled">★</span>
-            </div>
+  <h1>{{ game.name }}</h1>
+  <div class="details-container">
+    <div class="image-container">
+      <img [src]="game.image || 'path/to/default-image.jpg'" alt="{{ game.name }}">
+    </div>
+    <div class="info-container">
+      <h2>DESCRIPCIÓN</h2>
+      <p>{{ game.description }}</p>
+      <div class="ratings">
+        <div class="rating">
+          <h3>CALIFICACIONES</h3>
+          <p>{{ game.rating }}/5</p>
+          <div class="stars">
+            <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= game.rating">★</span>
           </div>
         </div>
-        <button class="btn btn-favorite">AÑADIR A FAVORITOS</button>
+        <div class="reviews">
+          <h3>RESEÑAS</h3>
+          <div class="stars">
+            <span *ngFor="let star of [1,2,3,4,5]" class="star filled">★</span>
+          </div>
+          <div *ngFor="let review of reviews">
+            <p>{{ review.content }}</p>
+          </div>
+        </div>
       </div>
+      <button class="btn btn-favorite" (click)="addToFavorites()">AÑADIR A FAVORITOS</button>
+      <button class="btn btn-pending" (click)="addToPending()">AÑADIR A PENDIENTES</button>
     </div>
   </div>
-  
+
+  <div class="add-review" *ngIf="authService.isAuthenticated()">
+    <h3>Añadir Reseña</h3>
+    <textarea [(ngModel)]="newReview" placeholder="Escribe tu reseña"></textarea>
+    <button (click)="addReview()">Enviar</button>
+  </div>
+</div>

@@ -28,6 +28,14 @@ class User extends Authenticatable {
         return $this->hasMany(Comparison::class);
     }
 
+    public function favorites() {
+        return $this->belongsToMany(VideoGame::class, 'favorite_video_games');
+    }
+
+    public function pending() {
+        return $this->belongsToMany(VideoGame::class, 'pending_video_games');
+    }
+
     protected $casts = [
         'creation_date' => 'datetime',
     ];

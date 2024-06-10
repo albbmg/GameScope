@@ -40,7 +40,10 @@ export class AuthService {
   }
 
   logout(): Observable<any> {
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${this.getToken()}`)
+      .set('X-CSRF-TOKEN', this.getCsrfToken() || ''); // Proporcionar valor por defecto si es null
+
     return this.http.post(`${this.apiUrl}/logout`, {}, { headers }).pipe(
       tap(() => {
         localStorage.removeItem('access_token');
@@ -60,6 +63,11 @@ export class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem('access_token');
+  }
+
+  getCsrfToken(): string | null {
+    // Método para obtener el token CSRF, depende de cómo lo estés gestionando
+    return 'your-csrf-token'; // Asegúrate de obtener el token CSRF correctamente
   }
 
   getRole(): string | null {

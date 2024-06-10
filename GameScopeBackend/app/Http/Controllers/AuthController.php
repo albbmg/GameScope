@@ -10,6 +10,11 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except(['login', 'register']);
+    }
+
     public function register(Request $request)
     {
         try {
@@ -70,6 +75,7 @@ class AuthController extends Controller
         $user->tokens()->delete();
 
         Auth::guard('web')->logout();
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

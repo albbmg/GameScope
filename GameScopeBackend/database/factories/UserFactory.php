@@ -8,14 +8,20 @@ use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
-    protected static ?string $password;
+    protected static $password;
 
     public function definition(): array
     {
         return [
-            'username' => fake()->name(),
+            'first_name' => fake()->firstName(),
+            'last_name' => fake()->lastName(),
+            'phone' => fake()->phoneNumber(),
             'email' => fake()->unique()->safeEmail(),
-            'password' => static::$password ??= Hash::make('password'),
+            'password' => self::$password ?? (self::$password = Hash::make('password')),
+            'username' => fake()->userName(),
+            'privacy_settings' => 'public',
+            'role' => 'user',
+            'profile_image' => fake()->imageUrl(640, 480, 'people', true),
             'remember_token' => Str::random(10),
         ];
     }

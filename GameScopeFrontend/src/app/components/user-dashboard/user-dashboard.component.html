@@ -1,0 +1,24 @@
+<div>
+  <header>
+    <img src="path/to/logo.png" alt="GameScope Logo" class="logo">
+    <button (click)="goToProfile()">{{ user?.first_name || 'Usuario' }}</button>
+  </header>
+
+  <aside>
+    <img [src]="user?.profileImage || 'path/to/default-profile.png'" alt="Profile Image" class="profile-image">
+    <ul>
+      <li>Mi perfil</li>
+      <li (click)="logout()">Cerrar sesión</li>
+    </ul>
+  </aside>
+
+  <main>
+    <form [formGroup]="profileForm" (ngSubmit)="updateProfile()">
+      <input type="file" (change)="uploadProfileImage($event)">
+      <div *ngFor="let control of profileControls">
+        <input [formControlName]="control.name" [placeholder]="control.placeholder">
+      </div>
+      <button type="submit">Guardar cambios</button>
+    </form>
+  </main>
+</div>

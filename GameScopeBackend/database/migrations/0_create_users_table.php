@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('username')->nullable();
             $table->string('privacy_settings')->nullable();
             $table->string('role')->default('user');
+            $table->string('profile_image')->nullable();
             $table->timestamps();
             $table->rememberToken();
         });

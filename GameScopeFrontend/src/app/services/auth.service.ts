@@ -16,7 +16,7 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/register`, user).pipe(
       tap((response: any) => {
         localStorage.setItem('access_token', response.access_token);
-        this.router.navigate(['/user-profile']);
+        this.router.navigate(['/login']); 
       }),
       catchError(this.handleError)
     );
@@ -26,7 +26,14 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
       tap((response: any) => {
         localStorage.setItem('access_token', response.access_token);
-        this.router.navigate(['/user-profile']);
+        this.getUser().subscribe(user => {
+          localStorage.setItem('user_role', user.role); 
+          if (user.role === 'admin') {
+            this.router.navigate(['/admin-dashboard']);
+          } else {
+            this.router.navigate(['/user-dashboard']);
+          }
+        });
       }),
       catchError(this.handleError)
     );
@@ -37,6 +44,7 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/logout`, {}, { headers }).pipe(
       tap(() => {
         localStorage.removeItem('access_token');
+        localStorage.removeItem('user_role');
         this.router.navigate(['/login']);
       }),
       catchError(this.handleError)
@@ -52,6 +60,10 @@ export class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem('access_token');
+  }
+
+  getRole(): string | null {
+    return localStorage.getItem('user_role');
   }
 
   isAuthenticated(): boolean {

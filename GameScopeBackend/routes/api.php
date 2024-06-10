@@ -28,4 +28,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/comparisons', [ComparisonController::class, 'store']);
     Route::put('/comparisons/{id}', [ComparisonController::class, 'update']);
     Route::delete('/comparisons/{id}', [ComparisonController::class, 'destroy']);
+    
+    Route::get('/user/profile', [UserController::class, 'getProfile']);
+    Route::put('/user/profile', [UserController::class, 'updateProfile']);
+    Route::post('/user/profile-image', [UserController::class, 'uploadProfileImage']);
 });
+

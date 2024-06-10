@@ -48,13 +48,13 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        if (!Auth::guard('web')->attempt($request->only('email', 'password'))) {
+        if (!Auth::attempt($request->only('email', 'password'))) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
         }
 
-        $user = Auth::guard('web')->user();
+        $user = Auth::user();
         
         $token = $user->createToken('auth_token')->plainTextToken;
 
@@ -66,7 +66,8 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $request->user()->tokens()->delete();
+        $user = $request->user();
+        $user->tokens()->delete();
 
         Auth::guard('web')->logout();
         $request->session()->invalidate();

@@ -3,21 +3,39 @@
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <input type="text" formControlName="firstName" placeholder="Nombre" />
+      <div *ngIf="registerForm.get('firstName')?.touched && registerForm.get('firstName')?.invalid" class="error">
+        {{ getErrorMessage('firstName') }}
+      </div>
     </div>
     <div class="form-group">
       <input type="text" formControlName="lastName" placeholder="Apellidos" />
+      <div *ngIf="registerForm.get('lastName')?.touched && registerForm.get('lastName')?.invalid" class="error">
+        {{ getErrorMessage('lastName') }}
+      </div>
     </div>
     <div class="form-group">
       <input type="text" formControlName="phone" placeholder="Teléfono" />
+      <div *ngIf="registerForm.get('phone')?.touched && registerForm.get('phone')?.invalid" class="error">
+        {{ getErrorMessage('phone') }}
+      </div>
     </div>
     <div class="form-group">
       <input type="email" formControlName="email" placeholder="Correo electrónico" />
+      <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid" class="error">
+        {{ getErrorMessage('email') }}
+      </div>
     </div>
     <div class="form-group">
       <input type="password" formControlName="password" placeholder="Contraseña" />
+      <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid" class="error">
+        {{ getErrorMessage('password') }}
+      </div>
     </div>
     <div class="form-group">
       <input type="password" formControlName="password_confirmation" placeholder="Repetir contraseña" />
+      <div *ngIf="registerForm.get('password_confirmation')?.touched && registerForm.get('password_confirmation')?.invalid" class="error">
+        {{ getErrorMessage('password_confirmation') }}
+      </div>
     </div>
     <div class="form-group">
       <button type="submit" [disabled]="registerForm.invalid">REGISTRARSE</button>

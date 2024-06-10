@@ -11,7 +11,8 @@ import { SearchComponent } from './components/search/search.component';
 import { VideoGamesComponent } from './components/video-games/video-games.component';
 import { VideoGameDetailComponent } from './components/video-game-detail/video-game-detail.component';
 import { ProtectedComponent } from './components/protected/protected.component';
-import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { UserDashboardComponent } from './components/user-dashboard/user-dashboard.component';
+import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -24,7 +25,8 @@ export const routes: Routes = [
   { path: 'video-games', component: VideoGamesComponent },
   { path: 'video-game/:id', component: VideoGameDetailComponent },
   { path: 'protected', component: ProtectedComponent, canActivate: [AuthGuard] },
-  { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard] },
+  { path: 'user-dashboard', component: UserDashboardComponent, canActivate: [AuthGuard], data: { role: 'user' } },
+  { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard], data: { role: 'admin' } },
   { path: '**', redirectTo: '' }  // Ruta comodín para redirigir rutas no encontradas
 ];
 

@@ -28,7 +28,6 @@ export class LoginComponent {
       this.authService.login(this.loginForm.value).subscribe(
         response => {
           console.log('User logged in successfully:', response);
-          this.router.navigate(['/protected']);
         },
         error => {
           console.error('Error logging in:', error);

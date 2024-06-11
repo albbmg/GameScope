@@ -84,7 +84,10 @@ export class UserDashboardComponent implements OnInit {
 
   logout(): void {
     this.userService.logout().subscribe({
-      next: () => this.router.navigate(['/login']),
+      next: () => {
+        localStorage.removeItem('access_token'); // Elimina el token del almacenamiento local
+        this.router.navigate(['/login']); // Redirige al usuario a la página de login
+      },
       error: error => console.error('Error logging out', error)
     });
   }

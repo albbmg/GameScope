@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\VideoGame;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VideoGameController extends Controller
 {
@@ -65,4 +66,26 @@ class VideoGameController extends Controller
 
         return response()->json(null, 204);
     }
+
+    public function addToFavorites(Request $request)
+    {
+        $user = Auth::user();
+        $gameId = $request->input('game_id');
+
+        $user->favorites()->attach($gameId);
+
+        return response()->json(['message' => 'Juego añadido a favoritos']);
+    }
+
+    public function addToPending(Request $request)
+    {
+        $user = Auth::user();
+        $gameId = $request->input('game_id');
+
+        $user->pending()->attach($gameId);
+
+        return response()->json(['message' => 'Juego añadido a pendientes']);
+    }
 }
+
+

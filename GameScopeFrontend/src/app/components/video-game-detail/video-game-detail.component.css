@@ -85,3 +85,15 @@
     opacity: 0.9;
   }
   
+  .success-message {
+    color: green;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .error-message {
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  

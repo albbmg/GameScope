@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('game_id')->constrained('video_games');
-            $table->text('text');
+            $table->text('content');
             $table->integer('rating');
             $table->timestamps();
         });
@@ -22,5 +22,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('reviews');
     }
-    
 };

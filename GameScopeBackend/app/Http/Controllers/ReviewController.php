@@ -15,13 +15,18 @@ class ReviewController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'game_id' => 'required|exists:video_games,id',
-            'text' => 'required|string',
+            'content' => 'required|string|max:1000',
             'rating' => 'required|integer|min:1|max:10'
         ]);
 
-        $review = Review::create(array_merge($request->all(), ['user_id' => Auth::id()]));
+        $review = Review::create([
+            'user_id' => Auth::id(),
+            'game_id' => $validated['game_id'],
+            'content' => $validated['content'],
+            'rating' => $validated['rating']
+        ]);
 
         return response()->json($review, 201);
     }

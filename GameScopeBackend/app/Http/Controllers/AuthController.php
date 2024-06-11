@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User; // Asegúrate de importar la clase User
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log; // Importa la clase Log
 
 class AuthController extends Controller

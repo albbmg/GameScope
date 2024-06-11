@@ -32,7 +32,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/comparisons/{id}', [ComparisonController::class, 'destroy']);
 
     Route::post('/favorites/add', [FavoriteController::class, 'add']);
+    Route::post('/favorites/remove', [FavoriteController::class, 'remove']);
+    Route::get('/favorites/status', [FavoriteController::class, 'status']);
+
     Route::post('/pending/add', [PendingController::class, 'add']);
+    Route::post('/pending/remove', [PendingController::class, 'remove']);
+    Route::get('/pending/status', [PendingController::class, 'status']);
 
     Route::get('/user/profile', [UserController::class, 'getProfile']);
     Route::put('/user/profile', [UserController::class, 'updateProfile']);

@@ -11,10 +11,10 @@ class Review extends Model
     
     protected $table = 'reviews';
 
-    public $timestamps = false;
+    public $timestamps = true; 
 
     protected $fillable = [
-        'user_id', 'game_id', 'text', 'rating', 'publication_date'
+        'user_id', 'game_id', 'content', 'rating'
     ];
 
     public function user()
@@ -26,8 +26,4 @@ class Review extends Model
     {
         return $this->belongsTo(VideoGame::class, 'game_id');
     }
-
-    protected $casts = [
-        'publication_date' => 'datetime',
-    ];
 }

@@ -25,8 +25,12 @@
           </div>
         </div>
       </div>
-      <button class="btn btn-favorite" (click)="addToFavorites()">AÑADIR A FAVORITOS</button>
-      <button class="btn btn-pending" (click)="addToPending()">AÑADIR A PENDIENTES</button>
+      <button class="btn btn-favorite" (click)="toggleFavorite()">
+        {{ isFavorite ? 'RETIRAR DE FAVORITOS' : 'AÑADIR A FAVORITOS' }}
+      </button>
+      <button class="btn btn-pending" (click)="togglePending()">
+        {{ isPending ? 'RETIRAR DE PENDIENTES' : 'AÑADIR A PENDIENTES' }}
+      </button>
     </div>
   </div>
 
@@ -34,5 +38,12 @@
     <h3>Añadir Reseña</h3>
     <textarea [(ngModel)]="newReview" placeholder="Escribe tu reseña"></textarea>
     <button (click)="addReview()">Enviar</button>
+  </div>
+
+  <div *ngIf="successMessage" class="success-message">
+    {{ successMessage }}
+  </div>
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
   </div>
 </div>

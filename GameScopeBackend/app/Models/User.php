@@ -7,7 +7,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable {
+class User extends Authenticatable
+{
     use Notifiable, HasApiTokens, HasFactory;
 
     public $timestamps = false;
@@ -20,19 +21,23 @@ class User extends Authenticatable {
         'password', 'remember_token',
     ];
 
-    public function reviews() {
+    public function reviews()
+    {
         return $this->hasMany(Review::class);
     }
 
-    public function comparisons() {
+    public function comparisons()
+    {
         return $this->hasMany(Comparison::class);
     }
 
-    public function favorites() {
+    public function favorites()
+    {
         return $this->belongsToMany(VideoGame::class, 'favorite_video_games');
     }
 
-    public function pending() {
+    public function pending()
+    {
         return $this->belongsToMany(VideoGame::class, 'pending_video_games');
     }
 

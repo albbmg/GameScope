@@ -86,6 +86,20 @@ class VideoGameController extends Controller
 
         return response()->json(['message' => 'Juego añadido a pendientes']);
     }
+
+    public function rate(Request $request)
+    {
+        $request->validate([
+            'game_id' => 'required|integer|exists:video_games,id',
+            'rating' => 'required|integer|min:1|max:5'
+        ]);
+
+        $game = VideoGame::findOrFail($request->input('game_id'));
+        $newRating = $request->input('rating');
+        $game->rating = ($game->rating * $game->rating_count + $newRating) / ($game->rating_count + 1);
+        $game->rating_count++;
+        $game->save();
+
+        return response()->json(['message' => 'Rating updated successfully']);
+    }
 }
-
-

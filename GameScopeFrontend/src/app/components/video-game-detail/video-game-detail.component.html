@@ -17,10 +17,10 @@
         </div>
         <div class="reviews">
           <h3>RESEÑAS</h3>
-          <div class="stars">
-            <span *ngFor="let star of [1,2,3,4,5]" class="star filled">★</span>
-          </div>
           <div *ngFor="let review of reviews">
+            <div class="stars">
+              <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= review.rating">★</span>
+            </div>
             <p>{{ review.content }}</p>
           </div>
         </div>
@@ -31,6 +31,18 @@
       <button class="btn btn-pending" (click)="togglePending()">
         {{ isPending ? 'RETIRAR DE PENDIENTES' : 'AÑADIR A PENDIENTES' }}
       </button>
+      <div class="user-rating" *ngIf="authService.isAuthenticated()">
+        <h3>Califica el Juego</h3>
+        <form (submit)="rateGame(newRating)">
+          <select [(ngModel)]="newRating" name="rating">
+            <option *ngFor="let star of [1,2,3,4,5]" [value]="star">{{ star }}</option>
+          </select>
+          <button type="submit">Calificar</button>
+        </form>
+        <div class="stars">
+          <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= game.rating">★</span>
+        </div>
+      </div>
     </div>
   </div>
 

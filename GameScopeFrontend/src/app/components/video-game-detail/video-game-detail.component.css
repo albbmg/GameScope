@@ -97,3 +97,17 @@
     margin-top: 10px;
   }
   
+  .stars {
+    display: flex;
+  }
+  
+  .star {
+    font-size: 2rem;
+    color: lightgray;
+    cursor: pointer;
+  }
+  
+  .star.filled {
+    color: gold;
+  }
+  

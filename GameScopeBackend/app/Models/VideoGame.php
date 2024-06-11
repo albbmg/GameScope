@@ -14,7 +14,7 @@ class VideoGame extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'name', 'description', 'developer', 'genre', 'platform', 'release_year', 'image', 'rating', 'graphics', 'gameplay', 'story'
+        'name', 'description', 'developer', 'genre', 'platform', 'release_year', 'image', 'rating', 'rating_count', 'graphics', 'gameplay', 'story'
     ];
 
     public function reviews()

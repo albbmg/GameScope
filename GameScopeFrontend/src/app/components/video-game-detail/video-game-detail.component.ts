@@ -18,16 +18,18 @@ export class VideoGameDetailComponent implements OnInit {
   game: any = null;
   reviews: any[] = [];
   newReview: string = '';
-  newRating: number = 5; // Valor de ejemplo
+  newRating: number = 5;
   successMessage: string = '';
   errorMessage: string = '';
   isFavorite: boolean = false;
   isPending: boolean = false;
+  userRating: number = 0;
+  temporaryRating: number = 0;
 
   constructor(
     private route: ActivatedRoute,
     private videoGamesService: VideoGamesService,
-    public authService: AuthService, // Cambiado a public para ser accesible desde el template
+    public authService: AuthService,
     private router: Router
   ) {}
 
@@ -42,12 +44,28 @@ export class VideoGameDetailComponent implements OnInit {
       if (this.gameId) {
         this.videoGamesService.getVideoGameById(this.gameId).subscribe(data => {
           this.game = data;
+          this.checkFavoriteStatus();
+          this.checkPendingStatus();
         });
         this.loadReviews();
-        this.checkFavoriteStatus();
-        this.checkPendingStatus();
       }
     });
+  }
+
+  checkFavoriteStatus(): void {
+    if (this.gameId) {
+      this.videoGamesService.checkFavoriteStatus(this.gameId).subscribe((response: any) => {
+        this.isFavorite = response.isFavorite;
+      });
+    }
+  }
+
+  checkPendingStatus(): void {
+    if (this.gameId) {
+      this.videoGamesService.checkPendingStatus(this.gameId).subscribe((response: any) => {
+        this.isPending = response.isPending;
+      });
+    }
   }
 
   toggleFavorite(): void {
@@ -58,12 +76,20 @@ export class VideoGameDetailComponent implements OnInit {
     }
   }
 
+  togglePending(): void {
+    if (this.isPending) {
+      this.removeFromPending();
+    } else {
+      this.addToPending();
+    }
+  }
+
   addToFavorites(): void {
     if (this.gameId) {
       this.videoGamesService.addToFavorites(this.gameId).subscribe({
         next: () => {
-          this.successMessage = 'Juego añadido a favoritos';
           this.isFavorite = true;
+          this.successMessage = 'Juego añadido a favoritos';
           setTimeout(() => this.successMessage = '', 3000);
         },
         error: error => {
@@ -78,23 +104,15 @@ export class VideoGameDetailComponent implements OnInit {
     if (this.gameId) {
       this.videoGamesService.removeFromFavorites(this.gameId).subscribe({
         next: () => {
-          this.successMessage = 'Juego eliminado de favoritos';
           this.isFavorite = false;
+          this.successMessage = 'Juego retirado de favoritos';
           setTimeout(() => this.successMessage = '', 3000);
         },
         error: error => {
-          this.errorMessage = 'Error al eliminar de favoritos';
+          this.errorMessage = 'Error al retirar de favoritos';
           setTimeout(() => this.errorMessage = '', 3000);
         }
       });
-    }
-  }
-
-  togglePending(): void {
-    if (this.isPending) {
-      this.removeFromPending();
-    } else {
-      this.addToPending();
     }
   }
 
@@ -102,8 +120,8 @@ export class VideoGameDetailComponent implements OnInit {
     if (this.gameId) {
       this.videoGamesService.addToPending(this.gameId).subscribe({
         next: () => {
-          this.successMessage = 'Juego añadido a pendientes';
           this.isPending = true;
+          this.successMessage = 'Juego añadido a pendientes';
           setTimeout(() => this.successMessage = '', 3000);
         },
         error: error => {
@@ -118,12 +136,12 @@ export class VideoGameDetailComponent implements OnInit {
     if (this.gameId) {
       this.videoGamesService.removeFromPending(this.gameId).subscribe({
         next: () => {
-          this.successMessage = 'Juego eliminado de pendientes';
           this.isPending = false;
+          this.successMessage = 'Juego retirado de pendientes';
           setTimeout(() => this.successMessage = '', 3000);
         },
         error: error => {
-          this.errorMessage = 'Error al eliminar de pendientes';
+          this.errorMessage = 'Error al retirar de pendientes';
           setTimeout(() => this.errorMessage = '', 3000);
         }
       });
@@ -155,27 +173,28 @@ export class VideoGameDetailComponent implements OnInit {
     }
   }
 
-  checkFavoriteStatus(): void {
-    if (this.gameId) {
-      this.videoGamesService.checkFavoriteStatus(this.gameId).subscribe({
-        next: (data: any) => {
-          this.isFavorite = data.isFavorite;
-        },
-        error: error => {
-          console.error(error);
-        }
-      });
-    }
+  setTemporaryRating(star: number): void {
+    this.temporaryRating = star;
   }
 
-  checkPendingStatus(): void {
+  resetUserRating(): void {
+    this.temporaryRating = 0;
+  }
+
+  rateGame(star: number): void {
     if (this.gameId) {
-      this.videoGamesService.checkPendingStatus(this.gameId).subscribe({
-        next: (data: any) => {
-          this.isPending = data.isPending;
+      this.videoGamesService.rateGame(this.gameId, star).subscribe({
+        next: () => {
+          this.userRating = star;
+          this.successMessage = 'Calificación registrada con éxito';
+          setTimeout(() => this.successMessage = '', 3000);
+          // Actualiza la calificación del juego si es necesario
+          this.game.rating = (this.game.rating * this.game.rating_count + star) / (this.game.rating_count + 1);
+          this.game.rating_count++;
         },
         error: error => {
-          console.error(error);
+          this.errorMessage = 'Error al registrar la calificación';
+          setTimeout(() => this.errorMessage = '', 3000);
         }
       });
     }

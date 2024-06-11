@@ -42,4 +42,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user/profile', [UserController::class, 'getProfile']);
     Route::put('/user/profile', [UserController::class, 'updateProfile']);
     Route::post('/user/profile-image', [UserController::class, 'uploadProfileImage']);
+
+    Route::post('/video-games/rate', [VideoGameController::class, 'rate']);
 });

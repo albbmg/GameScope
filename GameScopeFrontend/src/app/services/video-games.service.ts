@@ -69,4 +69,8 @@ export class VideoGamesService {
   addReview(gameId: string, content: string, rating: number): Observable<any> {
     return this.http.post(`${this.apiUrl}/reviews`, { game_id: gameId, content, rating }, { headers: this.getHeaders() });
   }
+
+  rateGame(gameId: string, rating: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/video-games/rate`, { game_id: gameId, rating }, { headers: this.getHeaders() });
+  }
 }

@@ -31,7 +31,13 @@ class VideoGameController extends Controller
 
     public function show($id)
     {
-        return VideoGame::findOrFail($id);
+        $videoGame = VideoGame::with('reviews')->findOrFail($id);
+
+        // Calculate the average rating
+        $averageRating = $videoGame->reviews()->avg('rating');
+        $videoGame->rating = $averageRating;
+
+        return $videoGame;
     }
 
     public function update(Request $request, $id)

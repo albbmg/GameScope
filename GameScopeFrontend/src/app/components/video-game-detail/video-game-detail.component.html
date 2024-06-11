@@ -10,7 +10,7 @@
       <div class="ratings">
         <div class="rating">
           <h3>CALIFICACIONES</h3>
-          <p>{{ game.rating }}/5</p>
+          <p>{{ game.rating | number: '1.1-1' }}/5</p> <!-- Show the average rating with one decimal -->
           <div class="stars">
             <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= game.rating">★</span>
           </div>

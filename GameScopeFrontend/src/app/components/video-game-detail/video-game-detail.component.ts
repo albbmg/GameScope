@@ -23,8 +23,6 @@ export class VideoGameDetailComponent implements OnInit {
   errorMessage: string = '';
   isFavorite: boolean = false;
   isPending: boolean = false;
-  userRating: number = 0;
-  temporaryRating: number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -152,7 +150,17 @@ export class VideoGameDetailComponent implements OnInit {
     if (this.gameId) {
       this.videoGamesService.getReviewsByGameId(this.gameId).subscribe((data: any) => {
         this.reviews = data;
+        this.calculateAverageRating();
       });
+    }
+  }
+
+  calculateAverageRating(): void {
+    if (this.reviews.length > 0) {
+      const sum = this.reviews.reduce((acc, review) => acc + review.rating, 0);
+      this.game.rating = sum / this.reviews.length;
+    } else {
+      this.game.rating = 0;
     }
   }
 
@@ -173,24 +181,13 @@ export class VideoGameDetailComponent implements OnInit {
     }
   }
 
-  setTemporaryRating(star: number): void {
-    this.temporaryRating = star;
-  }
-
-  resetUserRating(): void {
-    this.temporaryRating = 0;
-  }
-
-  rateGame(star: number): void {
+  rateGame(rating: number): void {
     if (this.gameId) {
-      this.videoGamesService.rateGame(this.gameId, star).subscribe({
+      this.videoGamesService.rateGame(this.gameId, rating).subscribe({
         next: () => {
-          this.userRating = star;
           this.successMessage = 'Calificación registrada con éxito';
           setTimeout(() => this.successMessage = '', 3000);
-          // Actualiza la calificación del juego si es necesario
-          this.game.rating = (this.game.rating * this.game.rating_count + star) / (this.game.rating_count + 1);
-          this.game.rating_count++;
+          this.loadReviews();
         },
         error: error => {
           this.errorMessage = 'Error al registrar la calificación';

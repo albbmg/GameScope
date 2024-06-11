@@ -13,21 +13,7 @@ export class UserService {
 
   getUser(): Observable<any> {
     const headers = this.getHeaders();
-    return this.http.get(`${this.apiUrl}/user`, { headers }).pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  getFavoriteGames(): Observable<any> {
-    const headers = this.getHeaders();
-    return this.http.get(`${this.apiUrl}/favorite-games`, { headers }).pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  getPendingGames(): Observable<any> {
-    const headers = this.getHeaders();
-    return this.http.get(`${this.apiUrl}/pending-games`, { headers }).pipe(
+    return this.http.get(`${this.apiUrl}/user/profile`, { headers }).pipe(
       catchError(this.handleError)
     );
   }

@@ -13,6 +13,9 @@
   </aside>
 
   <main>
+    <div *ngIf="successMessage" class="success-message">
+      {{ successMessage }}
+    </div>
     <form [formGroup]="profileForm" (ngSubmit)="updateProfile()">
       <input type="file" (change)="uploadProfileImage($event)">
       <div *ngFor="let control of profileControls">

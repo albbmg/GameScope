@@ -15,6 +15,7 @@ import { Observable } from 'rxjs';
 export class UserDashboardComponent implements OnInit {
   user: any;
   profileForm: FormGroup;
+  successMessage: string = '';
   profileControls: { name: string, placeholder: string }[] = [
     { name: 'firstName', placeholder: 'Nombre' },
     { name: 'lastName', placeholder: 'Apellidos' },
@@ -54,15 +55,23 @@ export class UserDashboardComponent implements OnInit {
           phone: this.user.phone
         });
       },
-      error: error => console.error('Error loading user data', error)
+      error: error => console.error('Error al cargar los datos del usuario', error)
     });
   }
 
   updateProfile(): void {
     if (this.profileForm.valid) {
       this.userService.updateUser(this.profileForm.value).subscribe({
-        next: response => console.log('Profile updated', response),
-        error: error => console.error('Error updating profile', error)
+        next: response => {
+          console.log('Perfil actualizado', response);
+          this.successMessage = '¡Información del perfil actualizada con éxito!';
+          setTimeout(() => this.successMessage = '', 3000); // Limpiar el mensaje después de 3 segundos
+        },
+        error: error => {
+          console.error('Error al actualizar el perfil', error);
+          this.successMessage = 'Error al actualizar el perfil. Por favor, inténtalo de nuevo.';
+          setTimeout(() => this.successMessage = '', 3000); // Limpiar el mensaje después de 3 segundos
+        }
       });
     }
   }
@@ -73,8 +82,16 @@ export class UserDashboardComponent implements OnInit {
     formData.append('profileImage', file);
 
     this.userService.uploadProfileImage(formData).subscribe({
-      next: response => this.user.profileImage = response.imageUrl,
-      error: error => console.error('Error uploading profile image', error)
+      next: response => {
+        this.user.profileImage = response.imageUrl;
+        this.successMessage = '¡Se ha actualizado la imagen del perfil con éxito!';
+        setTimeout(() => this.successMessage = '', 3000); // Limpiar el mensaje después de 3 segundos
+      },
+      error: error => {
+        console.error('Error al subir la imagen del perfil', error);
+        this.successMessage = 'Error al subir la imagen del perfil. Por favor, inténtalo de nuevo.';
+        setTimeout(() => this.successMessage = '', 3000); // Limpiar el mensaje después de 3 segundos
+      }
     });
   }
 
@@ -88,7 +105,7 @@ export class UserDashboardComponent implements OnInit {
         localStorage.removeItem('access_token'); // Elimina el token del almacenamiento local
         this.router.navigate(['/login']); // Redirige al usuario a la página de login
       },
-      error: error => console.error('Error logging out', error)
+      error: error => console.error('Error al cerrar sesión', error)
     });
   }
 }

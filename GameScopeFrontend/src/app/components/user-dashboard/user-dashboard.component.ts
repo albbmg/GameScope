@@ -83,7 +83,7 @@ export class UserDashboardComponent implements OnInit {
 
     this.userService.uploadProfileImage(formData).subscribe({
       next: response => {
-        this.user.profileImage = response.imageUrl;
+        this.user.profile_image = response.imageUrl;
         this.successMessage = '¡Se ha actualizado la imagen del perfil con éxito!';
         setTimeout(() => this.successMessage = '', 3000); // Limpiar el mensaje después de 3 segundos
       },

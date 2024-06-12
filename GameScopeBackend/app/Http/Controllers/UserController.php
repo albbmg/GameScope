@@ -59,7 +59,7 @@ class UserController extends Controller
             $user->save();
         }
 
-        return response()->json(['imageUrl' => $path]);
+        return response()->json(['imageUrl' => asset('storage/' . $path)]);
     }
 }
 

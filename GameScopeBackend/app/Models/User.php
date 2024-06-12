@@ -44,4 +44,13 @@ class User extends Authenticatable
     protected $casts = [
         'creation_date' => 'datetime',
     ];
+
+    public function getProfileImageAttribute($value)
+    {
+        if ($value) {
+            return asset('storage/' . $value);
+        } else {
+            return asset('images/trabajo-fin-de-master-gamescope.png');
+        }
+    }
 }

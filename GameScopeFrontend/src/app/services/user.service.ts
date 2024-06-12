@@ -26,10 +26,7 @@ export class UserService {
   }
 
   uploadProfileImage(formData: FormData): Observable<any> {
-    const token = this.getToken();
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
+    const headers = this.getHeaders();
     return this.http.post(`${this.apiUrl}/user/profile-image`, formData, { headers }).pipe(
       catchError(this.handleError)
     );
@@ -45,8 +42,7 @@ export class UserService {
   private getHeaders(): HttpHeaders {
     const token = this.getToken();
     return new HttpHeaders({
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
+      'Authorization': `Bearer ${token}`
     });
   }
 

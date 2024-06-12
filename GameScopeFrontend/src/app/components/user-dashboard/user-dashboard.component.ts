@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -16,13 +15,14 @@ export class UserDashboardComponent implements OnInit {
   user: any;
   profileForm: FormGroup;
   successMessage: string = '';
+  errorMessage: string = '';  // Añadimos la propiedad errorMessage
   profileControls: { name: string, placeholder: string }[] = [
     { name: 'firstName', placeholder: 'Nombre' },
     { name: 'lastName', placeholder: 'Apellidos' },
     { name: 'email', placeholder: 'Correo electrónico' },
     { name: 'phone', placeholder: 'Teléfono' },
-    { name: 'password', placeholder: 'Contraseña' },
-    { name: 'newPassword', placeholder: 'Nueva contraseña' }
+    { name: 'newPassword', placeholder: 'Nueva contraseña' },
+    { name: 'newPassword_confirmation', placeholder: 'Confirmar nueva contraseña' }
   ];
 
   constructor(
@@ -31,17 +31,23 @@ export class UserDashboardComponent implements OnInit {
     private router: Router
   ) {
     this.profileForm = this.fb.group({
-      firstName: [''],
-      lastName: [''],
-      email: [''],
-      phone: [''],
-      password: [''],
-      newPassword: ['']
-    });
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', Validators.required],
+      newPassword: ['', [Validators.minLength(8)]],
+      newPassword_confirmation: ['']
+    }, { validators: this.passwordMatchValidator });
   }
 
   ngOnInit(): void {
     this.loadUserData();
+  }
+
+  passwordMatchValidator(group: FormGroup): any {
+    const password = group.get('newPassword')?.value;
+    const confirmPassword = group.get('newPassword_confirmation')?.value;
+    return password === confirmPassword ? null : { mismatch: true };
   }
 
   loadUserData(): void {
@@ -65,12 +71,13 @@ export class UserDashboardComponent implements OnInit {
         next: response => {
           console.log('Perfil actualizado', response);
           this.successMessage = '¡Información del perfil actualizada con éxito!';
+          this.errorMessage = '';  // Limpiar el mensaje de error
           setTimeout(() => this.successMessage = '', 3000); // Limpiar el mensaje después de 3 segundos
         },
         error: error => {
           console.error('Error al actualizar el perfil', error);
-          this.successMessage = 'Error al actualizar el perfil. Por favor, inténtalo de nuevo.';
-          setTimeout(() => this.successMessage = '', 3000); // Limpiar el mensaje después de 3 segundos
+          this.errorMessage = 'Error al actualizar el perfil. Por favor, inténtalo de nuevo.';
+          setTimeout(() => this.errorMessage = '', 3000); // Limpiar el mensaje después de 3 segundos
         }
       });
     }
@@ -85,12 +92,13 @@ export class UserDashboardComponent implements OnInit {
       next: response => {
         this.user.profile_image = response.imageUrl;
         this.successMessage = '¡Se ha actualizado la imagen del perfil con éxito!';
+        this.errorMessage = '';  // Limpiar el mensaje de error
         setTimeout(() => this.successMessage = '', 3000); // Limpiar el mensaje después de 3 segundos
       },
       error: error => {
         console.error('Error al subir la imagen del perfil', error);
-        this.successMessage = 'Error al subir la imagen del perfil. Por favor, inténtalo de nuevo.';
-        setTimeout(() => this.successMessage = '', 3000); // Limpiar el mensaje después de 3 segundos
+        this.errorMessage = 'Error al subir la imagen del perfil. Por favor, inténtalo de nuevo.';
+        setTimeout(() => this.errorMessage = '', 3000); // Limpiar el mensaje después de 3 segundos
       }
     });
   }

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -23,8 +24,8 @@ class UserController extends Controller
             'firstName' => 'required|string|max:255',
             'lastName' => 'required|string|max:255',
             'phone' => 'required|string|max:15',
-            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
-            'password' => 'nullable|string|min:8|confirmed',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'newPassword' => 'nullable|string|min:8|confirmed',
         ]);
 
         $user->first_name = $validatedData['firstName'];
@@ -32,8 +33,8 @@ class UserController extends Controller
         $user->phone = $validatedData['phone'];
         $user->email = $validatedData['email'];
 
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
+        if ($request->filled('newPassword')) {
+            $user->password = Hash::make($request->newPassword);
         }
 
         $user->save();
@@ -62,4 +63,3 @@ class UserController extends Controller
         return response()->json(['imageUrl' => asset('storage/' . $path)]);
     }
 }
-

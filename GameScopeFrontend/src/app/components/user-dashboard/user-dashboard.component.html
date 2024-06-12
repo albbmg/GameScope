@@ -1,11 +1,10 @@
 <div>
   <header>
-    <img src="path/to/logo.png" alt="GameScope Logo" class="logo">
     <button (click)="goToProfile()">{{ user?.first_name || 'Usuario' }}</button>
   </header>
 
   <aside>
-    <img [src]="user?.profile_image" alt="Profile Image" class="profile-image">
+    <img [src]="user?.profile_image || 'assets/images/trabajo-fin-de-master-gamescope.png'" alt="Profile Image" class="profile-image">
     <ul>
       <li>Mi perfil</li>
       <li (click)="logout()">Cerrar sesión</li>
@@ -16,12 +15,16 @@
     <div *ngIf="successMessage" class="success-message">
       {{ successMessage }}
     </div>
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
     <form [formGroup]="profileForm" (ngSubmit)="updateProfile()">
       <input type="file" (change)="uploadProfileImage($event)">
       <div *ngFor="let control of profileControls">
-        <input [formControlName]="control.name" [placeholder]="control.placeholder">
+        <input [formControlName]="control.name" [placeholder]="control.placeholder" type="text" *ngIf="control.name !== 'newPassword' && control.name !== 'newPassword_confirmation'">
+        <input [formControlName]="control.name" [placeholder]="control.placeholder" type="password" [autocomplete]="'new-password'" *ngIf="control.name === 'newPassword' || control.name === 'newPassword_confirmation'">
       </div>
       <button type="submit">Guardar cambios</button>
-    </form>
+    </form>    
   </main>
 </div>

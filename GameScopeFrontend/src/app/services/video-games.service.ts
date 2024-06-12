@@ -73,4 +73,12 @@ export class VideoGamesService {
   rateGame(gameId: string, rating: number): Observable<any> {
     return this.http.post(`${this.apiUrl}/video-games/rate`, { game_id: gameId, rating }, { headers: this.getHeaders() });
   }
+
+  getFavorites(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/favorites`, { headers: this.getHeaders() });
+  }
+
+  getPendingGames(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/pending`, { headers: this.getHeaders() });
+  }
 }

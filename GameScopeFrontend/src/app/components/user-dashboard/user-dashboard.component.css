@@ -1,62 +1,166 @@
-/* Ejemplo básico de CSS */
-nav {
+.dashboard {
+  display: grid;
+  grid-template-columns: 1fr 2fr 3fr;
+  height: 100vh;
+  width: 100%;
+  font-family: 'Poppins', sans-serif;
+}
+
+.dashboard-header {
+  grid-column: 1 / span 3;
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  background-color: #010625;
   padding: 10px;
-  background-color: #333;
-  color: white;
 }
 
-nav img {
-  height: 40px;
+.logo-image {
+  height: 60px;
+  cursor: pointer;
 }
 
-.profile-sidebar {
-  width: 200px;
-  background-color: #f4f4f4;
+.profile-button {
+  background-color: #010625;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.dashboard-sidebar {
+  background-color: #010625;
+  color: #fff;
   padding: 20px;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .profile-image {
   width: 100px;
   height: 100px;
   border-radius: 50%;
+  margin-bottom: 20px;
 }
 
-.profile-content {
-  margin-left: 220px;
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  text-align: center;
+}
+
+.sidebar-menu li {
+  margin: 10px 0;
+}
+
+.sidebar-menu a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.logout-button {
+  background-color: #010625;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  margin-top: auto;
+}
+
+.dashboard-main {
+  display: flex;
+  flex-direction: column;
   padding: 20px;
 }
 
-form {
+.profile-section {
+  margin-bottom: 40px;
+}
+
+.profile-picture img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.profile-section form {
   display: flex;
   flex-direction: column;
 }
 
-form input {
+.profile-section input[type="text"],
+.profile-section input[type="password"] {
   margin-bottom: 10px;
   padding: 10px;
-  font-size: 16px;
+  font-size: 20px;
 }
 
-button {
-  padding: 10px;
-  font-size: 16px;
+.profile-section button {
+  background-color: #010625;
+  color: #fff;
+  border: none;
   cursor: pointer;
+  font-size: 20px;
+  padding: 10px;
 }
 
-ul {
-  list-style: none;
-  padding: 0;
+.favorites-section,
+.pending-section {
+  margin-bottom: 40px;
 }
 
-ul li {
+.favorites-section h2,
+.pending-section h2 {
+  font-size: 30px;
+  color: #010625;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.game-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.game-item {
+  width: calc(33.333% - 20px);
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+.game-item img {
+  width: 100%;
+  height: auto;
+}
+
+.game-info {
+  padding: 10px 0;
+}
+
+.game-info h3 {
+  font-size: 20px;
+  font-weight: 700;
   margin: 10px 0;
-  cursor: pointer;
 }
 
-.success-message {
-  color: green;
-  font-weight: bold;
-  margin-bottom: 10px;
+.game-info p {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.stars {
+  color: #FFD700;
+}
+
+.star.filled {
+  color: #FFD700;
 }

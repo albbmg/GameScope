@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
+import { VideoGamesService } from '../../services/video-games.service';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -15,7 +16,9 @@ export class UserDashboardComponent implements OnInit {
   user: any;
   profileForm: FormGroup;
   successMessage: string = '';
-  errorMessage: string = '';  // Añadimos la propiedad errorMessage
+  errorMessage: string = '';
+  favorites: any[] = [];
+  pendingGames: any[] = [];
   profileControls: { name: string, placeholder: string }[] = [
     { name: 'firstName', placeholder: 'Nombre' },
     { name: 'lastName', placeholder: 'Apellidos' },
@@ -27,6 +30,7 @@ export class UserDashboardComponent implements OnInit {
 
   constructor(
     private userService: UserService,
+    private videoGamesService: VideoGamesService,
     private fb: FormBuilder,
     private router: Router
   ) {
@@ -35,13 +39,15 @@ export class UserDashboardComponent implements OnInit {
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
-      newPassword: ['', [Validators.minLength(8)]],
+      newPassword: [''],
       newPassword_confirmation: ['']
     }, { validators: this.passwordMatchValidator });
   }
 
   ngOnInit(): void {
     this.loadUserData();
+    this.loadFavorites();
+    this.loadPendingGames();
   }
 
   passwordMatchValidator(group: FormGroup): any {
@@ -58,26 +64,54 @@ export class UserDashboardComponent implements OnInit {
           firstName: this.user.first_name,
           lastName: this.user.last_name,
           email: this.user.email,
-          phone: this.user.phone
+          phone: this.user.phone,
+          newPassword: '',  // Asegúrate de que los campos de contraseña estén vacíos
+          newPassword_confirmation: ''
         });
       },
       error: error => console.error('Error al cargar los datos del usuario', error)
     });
   }
 
+  loadFavorites(): void {
+    this.videoGamesService.getFavorites().subscribe({
+      next: data => {
+        this.favorites = data;
+      },
+      error: error => console.error('Error al cargar los juegos favoritos', error)
+    });
+  }
+
+  loadPendingGames(): void {
+    this.videoGamesService.getPendingGames().subscribe({
+      next: data => {
+        this.pendingGames = data;
+      },
+      error: error => console.error('Error al cargar los juegos pendientes', error)
+    });
+  }
+
   updateProfile(): void {
     if (this.profileForm.valid) {
-      this.userService.updateUser(this.profileForm.value).subscribe({
+      const formData = this.profileForm.value;
+
+      // Asegúrate de que los campos de nueva contraseña estén vacíos si no se han cambiado
+      if (!formData.newPassword) {
+        delete formData.newPassword;
+        delete formData.newPassword_confirmation;
+      }
+
+      this.userService.updateUser(formData).subscribe({
         next: response => {
           console.log('Perfil actualizado', response);
           this.successMessage = '¡Información del perfil actualizada con éxito!';
-          this.errorMessage = '';  // Limpiar el mensaje de error
-          setTimeout(() => this.successMessage = '', 3000); // Limpiar el mensaje después de 3 segundos
+          this.errorMessage = '';
+          setTimeout(() => this.successMessage = '', 3000);
         },
         error: error => {
           console.error('Error al actualizar el perfil', error);
           this.errorMessage = 'Error al actualizar el perfil. Por favor, inténtalo de nuevo.';
-          setTimeout(() => this.errorMessage = '', 3000); // Limpiar el mensaje después de 3 segundos
+          setTimeout(() => this.errorMessage = '', 3000);
         }
       });
     }
@@ -92,13 +126,13 @@ export class UserDashboardComponent implements OnInit {
       next: response => {
         this.user.profile_image = response.imageUrl;
         this.successMessage = '¡Se ha actualizado la imagen del perfil con éxito!';
-        this.errorMessage = '';  // Limpiar el mensaje de error
-        setTimeout(() => this.successMessage = '', 3000); // Limpiar el mensaje después de 3 segundos
+        this.errorMessage = '';
+        setTimeout(() => this.successMessage = '', 3000);
       },
       error: error => {
         console.error('Error al subir la imagen del perfil', error);
         this.errorMessage = 'Error al subir la imagen del perfil. Por favor, inténtalo de nuevo.';
-        setTimeout(() => this.errorMessage = '', 3000); // Limpiar el mensaje después de 3 segundos
+        setTimeout(() => this.errorMessage = '', 3000);
       }
     });
   }
@@ -110,8 +144,8 @@ export class UserDashboardComponent implements OnInit {
   logout(): void {
     this.userService.logout().subscribe({
       next: () => {
-        localStorage.removeItem('access_token'); // Elimina el token del almacenamiento local
-        this.router.navigate(['/login']); // Redirige al usuario a la página de login
+        localStorage.removeItem('access_token');
+        this.router.navigate(['/login']);
       },
       error: error => console.error('Error al cerrar sesión', error)
     });

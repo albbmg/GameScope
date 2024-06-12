@@ -108,4 +108,17 @@ class VideoGameController extends Controller
 
         return response()->json(['message' => 'Rating updated successfully']);
     }
+
+        public function getFavorites()
+    {
+        $user = Auth::user();
+        return response()->json($user->favorites()->get());
+    }
+
+    public function getPendingGames()
+    {
+        $user = Auth::user();
+        return response()->json($user->pending()->get());
+    }
+
 }

@@ -18,6 +18,8 @@ class CreateFavoriteVideoGamesTable extends Migration
 
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('favorite_video_games');
+        Schema::enableForeignKeyConstraints();
     }
 }

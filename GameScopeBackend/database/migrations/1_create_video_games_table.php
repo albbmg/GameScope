@@ -28,6 +28,8 @@ return new class extends Migration
 
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('video_games');
+        Schema::enableForeignKeyConstraints();
     }
 };

@@ -34,6 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/favorites/add', [FavoriteController::class, 'add']);
     Route::post('/favorites/remove', [FavoriteController::class, 'remove']);
     Route::get('/favorites/status', [FavoriteController::class, 'status']);
+    
 
     Route::post('/pending/add', [PendingController::class, 'add']);
     Route::post('/pending/remove', [PendingController::class, 'remove']);
@@ -44,4 +45,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/user/profile-image', [UserController::class, 'uploadProfileImage']);
 
     Route::post('/video-games/rate', [VideoGameController::class, 'rate']);
+
+    Route::get('/favorites', [FavoriteController::class, 'getFavorites']); 
+    Route::get('/pending', [VideoGameController::class, 'getPendingGames']); 
 });

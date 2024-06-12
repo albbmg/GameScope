@@ -9,11 +9,13 @@ class Favorite extends Model
 {
     use HasFactory;
 
+    protected $table = 'favorite_video_games';
+
     public $timestamps = false;
 
     protected $fillable = [
         'user_id',
-        'game_id',
+        'video_game_id',
     ];
 
     public function user()
@@ -23,6 +25,6 @@ class Favorite extends Model
 
     public function videoGame()
     {
-        return $this->belongsTo(VideoGame::class, 'game_id');
+        return $this->belongsTo(VideoGame::class, 'video_game_id');
     }
 }

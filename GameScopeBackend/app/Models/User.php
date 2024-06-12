@@ -33,8 +33,9 @@ class User extends Authenticatable
 
     public function favorites()
     {
-        return $this->belongsToMany(VideoGame::class, 'favorite_video_games');
+        return $this->belongsToMany(VideoGame::class, 'favorite_video_games', 'user_id', 'video_game_id');
     }
+
 
     public function pending()
     {

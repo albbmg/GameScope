@@ -15,7 +15,7 @@ class FavoriteFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'game_id' => VideoGame::factory(),
+            'video_game_id' => VideoGame::factory(),
         ];
     }
 }

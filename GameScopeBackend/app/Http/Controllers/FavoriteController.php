@@ -3,48 +3,45 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Favorite;
 use Illuminate\Support\Facades\Auth;
 
 class FavoriteController extends Controller
 {
     public function add(Request $request)
     {
-        $request->validate([
-            'game_id' => 'required|integer|exists:video_games,id',
-        ]);
+        $user = Auth::user();
+        $gameId = $request->input('game_id');
 
-        $favorite = Favorite::create([
-            'user_id' => Auth::id(),
-            'game_id' => $request->game_id,
-        ]);
+        if (!$user->favorites()->where('video_game_id', $gameId)->exists()) {
+            $user->favorites()->attach($gameId);
+        }
 
-        return response()->json(['message' => 'Added to favorites'], 200);
+        return response()->json(['message' => 'Juego añadido a favoritos']);
     }
 
     public function remove(Request $request)
     {
-        $request->validate([
-            'game_id' => 'required|integer|exists:video_games,id',
-        ]);
+        $user = Auth::user();
+        $gameId = $request->input('game_id');
 
-        Favorite::where('user_id', Auth::id())
-            ->where('game_id', $request->game_id)
-            ->delete();
+        $user->favorites()->detach($gameId);
 
-        return response()->json(['message' => 'Removed from favorites'], 200);
+        return response()->json(['message' => 'Juego eliminado de favoritos']);
     }
 
     public function status(Request $request)
     {
-        $request->validate([
-            'game_id' => 'required|integer|exists:video_games,id',
-        ]);
+        $user = Auth::user();
+        $gameId = $request->input('game_id');
 
-        $isFavorite = Favorite::where('user_id', Auth::id())
-            ->where('game_id', $request->game_id)
-            ->exists();
+        $isFavorite = $user->favorites()->where('video_game_id', $gameId)->exists();
 
-        return response()->json(['isFavorite' => $isFavorite], 200);
+        return response()->json(['isFavorite' => $isFavorite]);
+    }
+
+    public function getFavorites()
+    {
+        $user = Auth::user();
+        return response()->json($user->favorites()->get());
     }
 }

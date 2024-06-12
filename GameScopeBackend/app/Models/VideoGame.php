@@ -31,4 +31,10 @@ class VideoGame extends Model
     {
         return $this->hasMany(Comparison::class, 'game_id2');
     }
+
+    public function favoritedBy()
+    {
+        return $this->belongsToMany(User::class, 'favorite_video_games', 'video_game_id', 'user_id');
+    }
+
 }

@@ -6,63 +6,68 @@
     <button class="profile-button" (click)="goToProfile()">{{ user?.first_name || 'Usuario' }}</button>
   </header>
 
-  <aside class="dashboard-sidebar">
-    <div class="profile-info">
-      <img [src]="user?.profile_image || 'assets/images/trabajo-fin-de-master-gamescope.png'" alt="Profile Image" class="profile-image">
-      <ul class="sidebar-menu">
-        <li><a href="#">Mi perfil</a></li>
-        <li><a href="#">Favoritos</a></li>
-        <li><a href="#">Mis listas</a></li>
-      </ul>
-      <button class="logout-button" (click)="logout()">Cerrar sesión</button>
-    </div>
-  </aside>
-
-  <main class="dashboard-main">
-    <section class="profile-section">
-      <div class="profile-picture">
-        <img [src]="user?.profile_image || 'assets/images/trabajo-fin-de-master-gamescope.png'" alt="Profile Image">
+  <div class="dashboard-body">
+    <aside class="dashboard-sidebar">
+      <div class="profile-info">
+        <img [src]="user?.profile_image || 'assets/images/trabajo-fin-de-master-gamescope.png'" alt="Profile Image" class="profile-image">
+        <ul class="sidebar-menu">
+          <li><a href="#">Mi perfil</a></li>
+          <li><a href="#">Favoritos</a></li>
+          <li><a href="#">Juegos pendientes</a></li>
+          <li><a href="#">Mis reseñas</a></li>
+        </ul>
+        <button class="logout-button" (click)="logout()">Cerrar sesión</button>
       </div>
-      <form [formGroup]="profileForm" (ngSubmit)="updateProfile()">
-        <input type="file" (change)="uploadProfileImage($event)">
-        <div *ngFor="let control of profileControls">
-          <input [formControlName]="control.name" [placeholder]="control.placeholder" type="text" *ngIf="control.name !== 'newPassword' && control.name !== 'newPassword_confirmation'">
-          <input [formControlName]="control.name" [placeholder]="control.placeholder" type="password" [autocomplete]="'off'" *ngIf="control.name === 'newPassword' || control.name === 'newPassword_confirmation'">
-        </div>
-        <button type="submit">Guardar cambios</button>
-      </form>
-    </section>
+    </aside>
 
-    <section class="favorites-section">
-      <h2>⭐ FAVORITOS</h2>
-      <div class="game-list">
-        <div class="game-item" *ngFor="let game of favorites">
-          <img [src]="game.image" alt="{{ game.name }}">
-          <div class="game-info">
-            <h3>{{ game.name }}</h3>
-            <p>{{ game.description }}</p>
-            <div class="stars">
-              <span *ngFor="let star of [1, 2, 3, 4, 5]" class="star" [class.filled]="star <= game.rating">★</span>
+    <main class="dashboard-main">
+      <section class="profile-section">
+        <div class="profile-picture">
+          <img [src]="user?.profile_image || 'assets/images/trabajo-fin-de-master-gamescope.png'" alt="Profile Image">
+        </div>
+        <form [formGroup]="profileForm" (ngSubmit)="updateProfile()">
+          <input type="file" (change)="uploadProfileImage($event)">
+          <div *ngFor="let control of profileControls">
+            <input [formControlName]="control.name" [placeholder]="control.placeholder" type="text" *ngIf="control.name !== 'newPassword' && control.name !== 'newPassword_confirmation'">
+            <input [formControlName]="control.name" [placeholder]="control.placeholder" type="password" [autocomplete]="'off'" *ngIf="control.name === 'newPassword' || control.name === 'newPassword_confirmation'">
+          </div>
+          <button type="submit">Guardar cambios</button>
+        </form>
+      </section>
+
+      <div class="game-lists">
+        <section class="favorites-section">
+          <h2>⭐ FAVORITOS</h2>
+          <div class="game-list">
+            <div class="game-item" *ngFor="let game of favorites">
+              <img [src]="game.image" alt="{{ game.name }}">
+              <div class="game-info">
+                <h3>{{ game.name }}</h3>
+                <p>{{ game.description }}</p>
+                <div class="stars">
+                  <span *ngFor="let star of [1, 2, 3, 4, 5]" class="star" [class.filled]="star <= game.rating">★</span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
+        </section>
 
-    <section class="pending-section">
-      <h2>LISTA: Pendientes jugar</h2>
-      <div class="game-list">
-        <div class="game-item" *ngFor="let game of pendingGames">
-          <img [src]="game.image" alt="{{ game.name }}">
-          <div class="game-info">
-            <h3>{{ game.name }}</h3>
-            <p>{{ game.description }}</p>
-            <div class="stars">
-              <span *ngFor="let star of [1, 2, 3, 4, 5]" class="star" [class.filled]="star <= game.rating">★</span>
+        <section class="pending-section">
+          <h2>LISTA: Pendientes jugar</h2>
+          <div class="game-list">
+            <div class="game-item" *ngFor="let game of pendingGames">
+              <img [src]="game.image" alt="{{ game.name }}">
+              <div class="game-info">
+                <h3>{{ game.name }}</h3>
+                <p>{{ game.description }}</p>
+                <div class="stars">
+                  <span *ngFor="let star of [1, 2, 3, 4, 5]" class="star" [class.filled]="star <= game.rating">★</span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
-    </section>
-  </main>
+    </main>
+  </div>
 </div>

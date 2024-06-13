@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,5 +10,21 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterModule]
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
+  isAuthenticated: boolean = false;
+  isAdmin: boolean = false;
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.isAuthenticated = this.authService.isAuthenticated();
+    this.isAdmin = this.authService.getRole() === 'admin';
+  }
+
+  logout(): void {
+    this.authService.logout().subscribe(() => {
+      this.isAuthenticated = false;
+      this.isAdmin = false;
+    });
+  }
 }

@@ -8,9 +8,12 @@
     <ul>
       <li><a routerLink="/">Home</a></li>
       <li><a routerLink="/explore">Explora</a></li>
-      <li><a routerLink="/register">Register</a></li>
-      <li><a routerLink="/login">Login</a></li>
       <li><a routerLink="/search">Búsqueda</a></li>
+      <li *ngIf="!isAuthenticated"><a routerLink="/register">Register</a></li>
+      <li *ngIf="!isAuthenticated"><a routerLink="/login">Login</a></li>
+      <li *ngIf="isAuthenticated && !isAdmin"><a routerLink="/user-dashboard">Dashboard</a></li>
+      <li *ngIf="isAuthenticated && isAdmin"><a routerLink="/admin-dashboard">Dashboard</a></li>
+      <li *ngIf="isAuthenticated"><a (click)="logout()">Cerrar sesión</a></li>
     </ul>
   </nav>
 </header>

@@ -27,7 +27,7 @@ export const routes: Routes = [
   { path: 'protected', component: ProtectedComponent, canActivate: [AuthGuard] },
   { path: 'user-dashboard', component: UserDashboardComponent, canActivate: [AuthGuard], data: { role: 'user' } },
   { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard], data: { role: 'admin' } },
-  { path: '**', redirectTo: '' }  // Ruta comodín para redirigir rutas no encontradas
+  { path: '**', redirectTo: '' }
 ];
 
 export const appConfig: ApplicationConfig = {

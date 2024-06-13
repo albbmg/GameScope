@@ -1,13 +1,12 @@
 .dashboard {
-  display: grid;
-  grid-template-columns: 1fr 2fr 3fr;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
   width: 100%;
   font-family: 'Poppins', sans-serif;
 }
 
 .dashboard-header {
-  grid-column: 1 / span 3;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -28,10 +27,20 @@
   font-size: 20px;
 }
 
+.dashboard-body {
+  display: flex;
+  flex: 1;
+  overflow-y: auto;
+}
+
 .dashboard-sidebar {
   background-color: #010625;
   color: #fff;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 250px;
 }
 
 .profile-info {
@@ -51,6 +60,7 @@
   list-style: none;
   padding: 0;
   text-align: center;
+  width: 100%;
 }
 
 .sidebar-menu li {
@@ -74,8 +84,8 @@
 
 .dashboard-main {
   display: flex;
-  flex-direction: column;
   padding: 20px;
+  gap: 20px; 
 }
 
 .profile-section {
@@ -110,9 +120,16 @@
   padding: 10px;
 }
 
+.game-lists {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
 .favorites-section,
 .pending-section {
-  margin-bottom: 40px;
+  background-color: #f8f8f8;
+  padding: 20px;
 }
 
 .favorites-section h2,

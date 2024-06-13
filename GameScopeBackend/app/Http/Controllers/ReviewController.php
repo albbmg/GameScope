@@ -8,8 +8,14 @@ use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $gameId = $request->query('game_id');
+
+        if ($gameId) {
+            return Review::where('game_id', $gameId)->get();
+        }
+
         return Review::all();
     }
 
@@ -18,7 +24,7 @@ class ReviewController extends Controller
         $validated = $request->validate([
             'game_id' => 'required|exists:video_games,id',
             'content' => 'required|string|max:1000',
-            'rating' => 'required|integer|min:1|max:10'
+            'rating' => 'required|integer|min:1|max:5'
         ]);
 
         $review = Review::create([

@@ -1,38 +1,35 @@
 <div class="dashboard">
-    <header class="dashboard-header">
-      <div class="logo">
-        <img src="assets/images/trabajo-fin-de-master-gamescope.png" alt="GameScope Logo" class="logo-image" (click)="goToProfile()">
-      </div>
-      <button class="profile-button" (click)="goToProfile()">{{ user?.first_name || 'Usuario' }}</button>
-    </header>
-  
-    <div class="dashboard-body">
-      <aside class="dashboard-sidebar">
-        <div class="profile-info">
-          <img [src]="user?.profile_image || 'assets/images/trabajo-fin-de-master-gamescope.png'" alt="Profile Image" class="profile-image">
-          <ul class="sidebar-menu">
-            <li><a routerLink="/user-dashboard">Mi perfil</a></li>
-            <li><a routerLink="/favorites">Favoritos</a></li>
-            <li><a routerLink="/pending">Juegos pendientes</a></li>
-            <li><a routerLink="/reviews">Mis reseñas</a></li>
-          </ul>
-          <button class="logout-button" (click)="logout()">Cerrar sesión</button>
-        </div>
-      </aside>
-  
-      <main class="dashboard-main">
-        <section class="reviews-section">
-          <h2>Mis Reseñas</h2>
-          <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-          <div *ngIf="reviews.length === 0">No tienes reseñas.</div>
-          <div *ngFor="let review of reviews" class="review-item">
-            <div class="stars">
-              <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= review.rating">★</span>
-            </div>
-            <p>{{ review.content }}</p>
-          </div>
-        </section>
-      </main>
+  <header class="dashboard-header">
+    <div class="logo">
+      <img src="assets/images/trabajo-fin-de-master-gamescope.png" alt="GameScope Logo" class="logo-image" (click)="goToProfile()">
     </div>
+    <button class="profile-button" (click)="goToProfile()">{{ user?.first_name || 'Usuario' }}</button>
+  </header>
+
+  <div class="dashboard-body">
+    <aside class="dashboard-sidebar">
+      <div class="profile-info">
+        <img [src]="user?.profile_image || 'assets/images/trabajo-fin-de-master-gamescope.png'" alt="Profile Image" class="profile-image">
+        <ul class="sidebar-menu">
+          <li><a routerLink="/user-dashboard">Mi perfil</a></li>
+          <li><a routerLink="/favorites">Favoritos</a></li>
+          <li><a routerLink="/pending">Juegos pendientes</a></li>
+          <li><a routerLink="/reviews">Mis reseñas</a></li>
+        </ul>
+        <button class="logout-button" (click)="logout()">Cerrar sesión</button>
+      </div>
+    </aside>
+
+    <main class="dashboard-main">
+      <section class="reviews-section">
+        <h2>Mis Reseñas</h2>
+        <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+        <div *ngIf="reviews.length === 0">No tienes reseñas.</div>
+        <div *ngFor="let review of reviews" class="review-item">
+          <h3>{{ review.game?.name || 'Juego desconocido' }}</h3>
+          <p>{{ review.content }}</p>
+        </div>
+      </section>
+    </main>
   </div>
-  
+</div>

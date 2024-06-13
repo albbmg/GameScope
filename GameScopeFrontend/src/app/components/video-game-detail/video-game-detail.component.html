@@ -10,16 +10,16 @@
       <div class="ratings">
         <div class="rating">
           <h3>CALIFICACIONES</h3>
-          <p>{{ game.rating | number: '1.1-1' }}/5</p> <!-- Show the average rating with one decimal -->
+          <p>{{ game.rating | number: '1.1-1' }}/5</p>
           <div class="stars">
-            <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= game.rating">★</span>
+            <span *ngFor="let star of [1, 2, 3, 4, 5]" class="star" [class.filled]="star <= game.rating">★</span>
           </div>
         </div>
         <div class="reviews">
           <h3>RESEÑAS</h3>
           <div *ngFor="let review of reviews">
             <div class="stars">
-              <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= review.rating">★</span>
+              <span *ngFor="let star of [1, 2, 3, 4, 5]" class="star" [class.filled]="star <= review.rating">★</span>
             </div>
             <p>{{ review.content }}</p>
           </div>
@@ -35,12 +35,12 @@
         <h3>Califica el Juego</h3>
         <form (submit)="rateGame(newRating)">
           <select [(ngModel)]="newRating" name="rating">
-            <option *ngFor="let star of [1,2,3,4,5]" [value]="star">{{ star }}</option>
+            <option *ngFor="let star of [1, 2, 3, 4, 5]" [value]="star">{{ star }}</option>
           </select>
           <button type="submit">Calificar</button>
         </form>
         <div class="stars">
-          <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= game.rating">★</span>
+          <span *ngFor="let star of [1, 2, 3, 4, 5]" class="star" [class.filled]="star <= game.rating">★</span>
         </div>
       </div>
     </div>

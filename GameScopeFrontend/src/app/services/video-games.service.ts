@@ -26,11 +26,16 @@ export class VideoGamesService {
   }
 
   getReviewsByGameId(gameId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/reviews`, { headers: this.getHeaders(), params: new HttpParams().set('game_id', gameId) });
+    const params = new HttpParams().set('game_id', gameId);
+    return this.http.get(`${this.apiUrl}/reviews`, { headers: this.getHeaders(), params });
   }
 
-  getReviewsByUser(): Observable<any> {  // Nuevo método
-    return this.http.get(`${this.apiUrl}/user-reviews`, { headers: this.getHeaders() });
+  addReview(gameId: string, content: string, rating: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/reviews`, { game_id: gameId, content, rating }, { headers: this.getHeaders() });
+  }
+
+  rateGame(gameId: string, rating: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/video-games/rate`, { game_id: gameId, rating }, { headers: this.getHeaders() });
   }
 
   addToFavorites(gameId: string): Observable<any> {
@@ -42,7 +47,8 @@ export class VideoGamesService {
   }
 
   checkFavoriteStatus(gameId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/favorites/status`, { headers: this.getHeaders(), params: new HttpParams().set('game_id', gameId) });
+    const params = new HttpParams().set('game_id', gameId);
+    return this.http.get(`${this.apiUrl}/favorites/status`, { headers: this.getHeaders(), params });
   }
 
   addToPending(gameId: string): Observable<any> {
@@ -54,7 +60,8 @@ export class VideoGamesService {
   }
 
   checkPendingStatus(gameId: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/pending/status`, { headers: this.getHeaders(), params: new HttpParams().set('video_game_id', gameId) });
+    const params = new HttpParams().set('video_game_id', gameId);
+    return this.http.get(`${this.apiUrl}/pending/status`, { headers: this.getHeaders(), params });
   }
 
   searchVideoGames(searchQuery: string, releaseYear: number | null): Observable<any> {
@@ -66,16 +73,8 @@ export class VideoGamesService {
   }
 
   getMultipleVideoGames(ids: string[]): Observable<any> {
-    let params = new HttpParams().set('ids', ids.join(','));
+    const params = new HttpParams().set('ids', ids.join(','));
     return this.http.get(`${this.apiUrl}/video-games/multiple`, { headers: this.getHeaders(), params });
-  }
-
-  addReview(gameId: string, content: string, rating: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/reviews`, { game_id: gameId, content, rating }, { headers: this.getHeaders() });
-  }
-
-  rateGame(gameId: string, rating: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/video-games/rate`, { game_id: gameId, rating }, { headers: this.getHeaders() });
   }
 
   getFavorites(): Observable<any> {
@@ -84,5 +83,9 @@ export class VideoGamesService {
 
   getPendingGames(): Observable<any> {
     return this.http.get(`${this.apiUrl}/pending`, { headers: this.getHeaders() });
+  }
+
+  getReviewsByUser(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/user-reviews`, { headers: this.getHeaders() });
   }
 }

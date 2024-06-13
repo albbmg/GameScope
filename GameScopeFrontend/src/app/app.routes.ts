@@ -12,6 +12,9 @@ import { VideoGamesComponent } from './components/video-games/video-games.compon
 import { VideoGameDetailComponent } from './components/video-game-detail/video-game-detail.component';
 import { ProtectedComponent } from './components/protected/protected.component';
 import { UserDashboardComponent } from './components/user-dashboard/user-dashboard.component';
+import { FavoritesComponent } from './components/favorites/favorites.component';
+import { PendingGamesComponent } from './components/pending-games/pending-games.component';
+import { ReviewsComponent } from './components/reviews/reviews.component'; 
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { AuthGuard } from './guards/auth.guard';
 
@@ -26,6 +29,9 @@ export const routes: Routes = [
   { path: 'video-game/:id', component: VideoGameDetailComponent },
   { path: 'protected', component: ProtectedComponent, canActivate: [AuthGuard] },
   { path: 'user-dashboard', component: UserDashboardComponent, canActivate: [AuthGuard], data: { role: 'user' } },
+  { path: 'favorites', component: FavoritesComponent, canActivate: [AuthGuard], data: { role: 'user' } },
+  { path: 'pending-games', component: PendingGamesComponent, canActivate: [AuthGuard], data: { role: 'user' } },
+  { path: 'reviews', component: ReviewsComponent, canActivate: [AuthGuard], data: { role: 'user' } }, 
   { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard], data: { role: 'admin' } },
   { path: '**', redirectTo: '' }
 ];

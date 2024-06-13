@@ -29,6 +29,10 @@ export class VideoGamesService {
     return this.http.get(`${this.apiUrl}/reviews`, { headers: this.getHeaders(), params: new HttpParams().set('game_id', gameId) });
   }
 
+  getReviewsByUser(): Observable<any> {  // Nuevo método
+    return this.http.get(`${this.apiUrl}/user-reviews`, { headers: this.getHeaders() });
+  }
+
   addToFavorites(gameId: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/favorites/add`, { game_id: gameId }, { headers: this.getHeaders() });
   }

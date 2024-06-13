@@ -11,10 +11,10 @@
       <div class="profile-info">
         <img [src]="user?.profile_image || 'assets/images/trabajo-fin-de-master-gamescope.png'" alt="Profile Image" class="profile-image">
         <ul class="sidebar-menu">
-          <li><a href="#">Mi perfil</a></li>
-          <li><a href="#">Favoritos</a></li>
-          <li><a href="#">Juegos pendientes</a></li>
-          <li><a href="#">Mis reseñas</a></li>
+          <li><a routerLink="/user-dashboard">Mi perfil</a></li>
+          <li><a routerLink="/favorites">Favoritos</a></li>
+          <li><a routerLink="/pending-games">Juegos pendientes</a></li>
+          <li><a routerLink="/reviews">Mis reseñas</a></li>
         </ul>
         <button class="logout-button" (click)="logout()">Cerrar sesión</button>
       </div>

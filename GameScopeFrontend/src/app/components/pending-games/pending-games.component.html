@@ -1,42 +1,44 @@
 <div class="dashboard">
-    <header class="dashboard-header">
-      <div class="logo">
-        <img src="assets/images/trabajo-fin-de-master-gamescope.png" alt="GameScope Logo" class="logo-image" (click)="goToProfile()">
+  <header class="dashboard-header">
+    <div class="logo">
+      <img src="assets/images/trabajo-fin-de-master-gamescope.png" alt="GameScope Logo" class="logo-image" (click)="goToProfile()">
+    </div>
+    <button class="profile-button">Juegos pendientes</button>
+  </header>
+
+  <div class="dashboard-body">
+    <aside class="dashboard-sidebar">
+      <div class="profile-info">
+        <img src="assets/images/trabajo-fin-de-master-gamescope.png" alt="Profile Image" class="profile-image">
+        <ul class="sidebar-menu">
+          <li><a routerLink="/user-dashboard">Mi perfil</a></li>
+          <li><a routerLink="/favorites">Favoritos</a></li>
+          <li><a routerLink="/pending-games">Juegos pendientes</a></li>
+          <li><a routerLink="/reviews">Mis reseñas</a></li>
+          <li *ngIf="isAdmin"><a routerLink="/manage-users">Gestionar usuarios</a></li>
+          <li *ngIf="isAdmin"><a routerLink="/manage-video-games">Gestionar videojuegos</a></li>
+          <li *ngIf="isAdmin"><a routerLink="/manage-reviews">Gestionar reseñas</a></li>
+        </ul>
+        <button class="logout-button">Cerrar sesión</button>
       </div>
-      <button class="profile-button">Juegos pendientes</button>
-    </header>
-  
-    <div class="dashboard-body">
-      <aside class="dashboard-sidebar">
-        <div class="profile-info">
-          <img src="assets/images/trabajo-fin-de-master-gamescope.png" alt="Profile Image" class="profile-image">
-          <ul class="sidebar-menu">
-            <li><a routerLink="/user-dashboard">Mi perfil</a></li>
-            <li><a routerLink="/favorites">Favoritos</a></li>
-            <li><a routerLink="/pending-games">Juegos pendientes</a></li>
-            <li><a routerLink="/reviews">Mis reseñas</a></li>
-          </ul>
-          <button class="logout-button">Cerrar sesión</button>
-        </div>
-      </aside>
-  
-      <main class="dashboard-main">
-        <section class="pending-section">
-          <h2>LISTA: Pendientes jugar</h2>
-          <div class="game-list">
-            <div class="game-item" *ngFor="let game of pendingGames">
-              <img [src]="game.image" alt="{{ game.name }}">
-              <div class="game-info">
-                <h3>{{ game.name }}</h3>
-                <p>{{ game.description }}</p>
-                <div class="stars">
-                  <span *ngFor="let star of [1, 2, 3, 4, 5]" class="star" [class.filled]="star <= game.rating">★</span>
-                </div>
+    </aside>
+
+    <main class="dashboard-main">
+      <section class="pending-section">
+        <h2>LISTA: Pendientes jugar</h2>
+        <div class="game-list">
+          <div class="game-item" *ngFor="let game of pendingGames">
+            <img [src]="game.image" alt="{{ game.name }}">
+            <div class="game-info">
+              <h3>{{ game.name }}</h3>
+              <p>{{ game.description }}</p>
+              <div class="stars">
+                <span *ngFor="let star of [1, 2, 3, 4, 5]" class="star" [class.filled]="star <= game.rating">★</span>
               </div>
             </div>
           </div>
-        </section>
-      </main>
-    </div>
+        </div>
+      </section>
+    </main>
   </div>
-  
+</div>

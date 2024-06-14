@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Review extends Model
 {
     use HasFactory;
-    
+
     protected $table = 'reviews';
 
-    public $timestamps = true; 
+    public $timestamps = true;
 
     protected $fillable = [
         'user_id', 'game_id', 'content', 'rating'
@@ -22,7 +22,7 @@ class Review extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function game()
+    public function videoGame()
     {
         return $this->belongsTo(VideoGame::class, 'game_id');
     }

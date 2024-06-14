@@ -25,6 +25,18 @@ export class VideoGamesService {
     return this.http.get(`${this.apiUrl}/video-games/${id}`, { headers: this.getHeaders() });
   }
 
+  addVideoGame(game: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/video-games`, game, { headers: this.getHeaders() });
+  }
+
+  updateVideoGame(id: string, game: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/video-games/${id}`, game, { headers: this.getHeaders() });
+  }
+
+  deleteVideoGame(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/video-games/${id}`, { headers: this.getHeaders() });
+  }
+
   getReviewsByGameId(gameId: string): Observable<any> {
     const params = new HttpParams().set('game_id', gameId);
     return this.http.get(`${this.apiUrl}/reviews`, { headers: this.getHeaders(), params });
@@ -87,5 +99,13 @@ export class VideoGamesService {
 
   getReviewsByUser(): Observable<any> {
     return this.http.get(`${this.apiUrl}/user-reviews`, { headers: this.getHeaders() });
+  }
+
+  getAllReviews(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/reviews`, { headers: this.getHeaders() });
+  }
+
+  deleteReview(reviewId: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/reviews/${reviewId}`, { headers: this.getHeaders() });
   }
 }

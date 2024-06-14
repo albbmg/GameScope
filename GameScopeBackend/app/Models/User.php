@@ -36,7 +36,6 @@ class User extends Authenticatable
         return $this->belongsToMany(VideoGame::class, 'favorite_video_games', 'user_id', 'video_game_id');
     }
 
-
     public function pending()
     {
         return $this->belongsToMany(VideoGame::class, 'pending_video_games');
@@ -53,5 +52,11 @@ class User extends Authenticatable
         } else {
             return asset('images/trabajo-fin-de-master-gamescope.png');
         }
+    }
+
+    // Método para verificar si el usuario es administrador
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
     }
 }

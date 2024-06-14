@@ -21,8 +21,15 @@ class VideoGameController extends Controller
             'developer' => 'required|string|max:255',
             'genre' => 'required|string|max:255',
             'platform' => 'required|string|max:255',
-            'release_year' => 'required|integer'
+            'release_year' => 'required|integer',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
+
+        if ($request->hasFile('image')) {
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+            $request->merge(['image' => $imageName]);
+        }
 
         $videoGame = VideoGame::create($request->all());
 
@@ -43,6 +50,23 @@ class VideoGameController extends Controller
     public function update(Request $request, $id)
     {
         $videoGame = VideoGame::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:500',
+            'developer' => 'required|string|max:255',
+            'genre' => 'required|string|max:255',
+            'platform' => 'required|string|max:255',
+            'release_year' => 'required|integer',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        if ($request->hasFile('image')) {
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+            $request->merge(['image' => $imageName]);
+        }
+
         $videoGame->update($request->all());
 
         return response()->json($videoGame, 200);
@@ -68,6 +92,10 @@ class VideoGameController extends Controller
     public function destroy($id)
     {
         $videoGame = VideoGame::findOrFail($id);
+
+        // Eliminar las reseñas asociadas al videojuego
+        $videoGame->reviews()->delete();
+
         $videoGame->delete();
 
         return response()->json(null, 204);

@@ -13,10 +13,10 @@ class ReviewController extends Controller
         $gameId = $request->query('game_id');
 
         if ($gameId) {
-            return Review::where('game_id', $gameId)->get();
+            return Review::with('user', 'videoGame')->where('game_id', $gameId)->get();
         }
 
-        return Review::all();
+        return Review::with('user', 'videoGame')->get();
     }
 
     public function store(Request $request)
@@ -39,13 +39,18 @@ class ReviewController extends Controller
 
     public function show($id)
     {
-        return Review::findOrFail($id);
+        return Review::with('user', 'videoGame')->findOrFail($id);
     }
 
     public function update(Request $request, $id)
     {
         $review = Review::findOrFail($id);
-        $this->authorize('update', $review);
+        $user = Auth::user();
+
+        if ($user->id !== $review->user_id && !$user->isAdmin()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $review->update($request->all());
 
         return response()->json($review, 200);
@@ -54,7 +59,12 @@ class ReviewController extends Controller
     public function destroy($id)
     {
         $review = Review::findOrFail($id);
-        $this->authorize('delete', $review);
+        $user = Auth::user();
+
+        if ($user->id !== $review->user_id && !$user->isAdmin()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $review->delete();
 
         return response()->json(null, 204);
@@ -63,6 +73,21 @@ class ReviewController extends Controller
     public function getUserReviews()
     {
         $userId = Auth::id();
-        return Review::where('user_id', $userId)->get();
+        return Review::with('videoGame')->where('user_id', $userId)->get();
+    }
+
+    public function search(Request $request)
+    {
+        $query = Review::query();
+
+        if ($request->has('searchQuery')) {
+            $query->where('content', 'like', '%' . $request->input('searchQuery') . '%');
+        }
+
+        if ($request->has('userId')) {
+            $query->where('user_id', $request->input('userId'));
+        }
+
+        return response()->json($query->with('user', 'videoGame')->get());
     }
 }

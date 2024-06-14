@@ -1,1 +1,53 @@
-<p>manage-reviews works!</p>
+<div class="dashboard">
+    <header class="dashboard-header">
+      <div class="logo">
+        <img src="assets/images/trabajo-fin-de-master-gamescope.png" alt="GameScope Logo" class="logo-image">
+      </div>
+      <button class="profile-button">{{ user?.first_name || 'Usuario' }}</button>
+    </header>
+  
+    <div class="dashboard-body">
+      <aside class="dashboard-sidebar">
+        <div class="profile-info">
+          <img [src]="user?.profile_image || 'assets/images/trabajo-fin-de-master-gamescope.png'" alt="Profile Image" class="profile-image">
+          <ul class="sidebar-menu">
+            <li><a routerLink="/user-dashboard">Mi perfil</a></li>
+            <li><a routerLink="/favorites">Favoritos</a></li>
+            <li><a routerLink="/pending-games">Juegos pendientes</a></li>
+            <li><a routerLink="/reviews">Mis reseñas</a></li>
+            <li *ngIf="isAdmin"><a routerLink="/manage-users">Gestionar usuarios</a></li>
+            <li *ngIf="isAdmin"><a routerLink="/manage-video-games">Gestionar videojuegos</a></li>
+            <li *ngIf="isAdmin"><a routerLink="/manage-reviews">Gestionar reseñas</a></li>
+          </ul>
+          <button class="logout-button" (click)="authService.logout()">Cerrar sesión</button>
+        </div>
+      </aside>
+  
+      <main class="dashboard-main">
+        <div class="reviews-container">
+          <h1>Gestionar Reseñas</h1>
+          <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+          <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Contenido</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let review of reviews">
+                <td>{{ review.user?.first_name }} {{ review.user?.last_name }}</td>
+                <td>{{ review.content }}</td>
+                <td>
+                  <button (click)="deleteReview(review.id)">Eliminar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+  </div>
+  

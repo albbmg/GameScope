@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
@@ -9,7 +9,11 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   private apiUrl = 'http://localhost:8000/api'; 
-  
+
+  // Observable para manejar cambios en la autenticación
+  private authStatusSubject = new BehaviorSubject<boolean>(this.isAuthenticated());
+  authStatus$ = this.authStatusSubject.asObservable();
+
   constructor(private http: HttpClient, private router: Router) {}
 
   register(user: any): Observable<any> {
@@ -28,8 +32,9 @@ export class AuthService {
         localStorage.setItem('access_token', response.access_token);
         this.getUser().subscribe(user => {
           localStorage.setItem('user_role', user.role); 
+          this.authStatusSubject.next(true); // Notificar cambios en la autenticación
           if (user.role === 'admin') {
-            this.router.navigate(['/admin-dashboard']);
+            this.router.navigate(['/user-dashboard']);
           } else {
             this.router.navigate(['/user-dashboard']);
           }
@@ -42,12 +47,13 @@ export class AuthService {
   logout(): Observable<any> {
     const headers = new HttpHeaders()
       .set('Authorization', `Bearer ${this.getToken()}`)
-      .set('X-CSRF-TOKEN', this.getCsrfToken() || ''); // Proporcionar valor por defecto si es null
+      .set('X-CSRF-TOKEN', this.getCsrfToken() || ''); 
 
     return this.http.post(`${this.apiUrl}/logout`, {}, { headers }).pipe(
       tap(() => {
         localStorage.removeItem('access_token');
         localStorage.removeItem('user_role');
+        this.authStatusSubject.next(false); // Notificar cambios en la autenticación
         this.router.navigate(['/login']);
       }),
       catchError(this.handleError)
@@ -66,8 +72,7 @@ export class AuthService {
   }
 
   getCsrfToken(): string | null {
-    // Método para obtener el token CSRF, depende de cómo lo estés gestionando
-    return 'your-csrf-token'; // Asegúrate de obtener el token CSRF correctamente
+    return 'your-csrf-token';
   }
 
   getRole(): string | null {

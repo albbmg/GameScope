@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { VideoGamesService } from '../../services/video-games.service';
+import { AuthService } from '../../services/auth.service'; // Importar AuthService
 
 @Component({
   selector: 'app-user-dashboard',
@@ -17,6 +18,8 @@ export class UserDashboardComponent implements OnInit {
   profileForm: FormGroup;
   successMessage: string = '';
   errorMessage: string = '';
+  updateSuccessMessage: string = ''; 
+  updateErrorMessage: string = '';   
   favorites: any[] = [];
   pendingGames: any[] = [];
   profileControls: { name: string, placeholder: string }[] = [
@@ -28,11 +31,14 @@ export class UserDashboardComponent implements OnInit {
     { name: 'newPassword_confirmation', placeholder: 'Confirmar nueva contraseña' }
   ];
 
+  isAdmin: boolean = false; // Añadir esta línea
+
   constructor(
     private userService: UserService,
     private videoGamesService: VideoGamesService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private authService: AuthService // Añadir el AuthService aquí
   ) {
     this.profileForm = this.fb.group({
       firstName: ['', Validators.required],
@@ -48,6 +54,7 @@ export class UserDashboardComponent implements OnInit {
     this.loadUserData();
     this.loadFavorites();
     this.loadPendingGames();
+    this.checkAdmin(); // Añadir esta línea
   }
 
   passwordMatchValidator(group: FormGroup): any {
@@ -65,7 +72,7 @@ export class UserDashboardComponent implements OnInit {
           lastName: this.user.last_name,
           email: this.user.email,
           phone: this.user.phone,
-          newPassword: '',  // Asegúrate de que los campos de contraseña estén vacíos
+          newPassword: '',
           newPassword_confirmation: ''
         });
       },
@@ -91,11 +98,14 @@ export class UserDashboardComponent implements OnInit {
     });
   }
 
+  checkAdmin(): void {
+    this.isAdmin = this.authService.getRole() === 'admin'; // Añadir esta línea
+  }
+
   updateProfile(): void {
     if (this.profileForm.valid) {
       const formData = this.profileForm.value;
 
-      // Asegúrate de que los campos de nueva contraseña estén vacíos si no se han cambiado
       if (!formData.newPassword) {
         delete formData.newPassword;
         delete formData.newPassword_confirmation;
@@ -106,12 +116,20 @@ export class UserDashboardComponent implements OnInit {
           console.log('Perfil actualizado', response);
           this.successMessage = '¡Información del perfil actualizada con éxito!';
           this.errorMessage = '';
-          setTimeout(() => this.successMessage = '', 3000);
+          this.updateSuccessMessage = '¡Perfil actualizado con éxito!'; 
+          setTimeout(() => {
+            this.successMessage = '';
+            this.updateSuccessMessage = ''; 
+          }, 3000);
         },
         error: error => {
           console.error('Error al actualizar el perfil', error);
           this.errorMessage = 'Error al actualizar el perfil. Por favor, inténtalo de nuevo.';
-          setTimeout(() => this.errorMessage = '', 3000);
+          this.updateErrorMessage = 'Error al actualizar el perfil'; 
+          setTimeout(() => {
+            this.errorMessage = '';
+            this.updateErrorMessage = ''; 
+          }, 3000);
         }
       });
     }
@@ -127,12 +145,20 @@ export class UserDashboardComponent implements OnInit {
         this.user.profile_image = response.imageUrl;
         this.successMessage = '¡Se ha actualizado la imagen del perfil con éxito!';
         this.errorMessage = '';
-        setTimeout(() => this.successMessage = '', 3000);
+        this.updateSuccessMessage = '¡Imagen del perfil actualizada!'; 
+        setTimeout(() => {
+          this.successMessage = '';
+          this.updateSuccessMessage = ''; 
+        }, 3000);
       },
       error: error => {
         console.error('Error al subir la imagen del perfil', error);
         this.errorMessage = 'Error al subir la imagen del perfil. Por favor, inténtalo de nuevo.';
-        setTimeout(() => this.errorMessage = '', 3000);
+        this.updateErrorMessage = 'Error al subir la imagen del perfil'; 
+        setTimeout(() => {
+          this.errorMessage = '';
+          this.updateErrorMessage = ''; 
+        }, 3000);
       }
     });
   }

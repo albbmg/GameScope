@@ -12,11 +12,12 @@ export class AuthGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const currentUserRole = this.authService.getRole();
     if (this.authService.isAuthenticated()) {
-      if (route.data['role'] && route.data['role'] !== currentUserRole) {
-        this.router.navigate(['/']);
-        return false;
+      // Permitir acceso si no se especifica rol o si el rol coincide
+      if (!route.data['role'] || route.data['role'] === currentUserRole || currentUserRole === 'admin') {
+        return true;
       }
-      return true;
+      this.router.navigate(['/']);
+      return false;
     } else {
       this.router.navigate(['/login']);
       return false;

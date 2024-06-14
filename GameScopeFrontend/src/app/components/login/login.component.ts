@@ -28,6 +28,7 @@ export class LoginComponent {
       this.authService.login(this.loginForm.value).subscribe(
         response => {
           console.log('User logged in successfully:', response);
+          // No es necesario redirigir aquí porque ya se maneja en el servicio
         },
         error => {
           console.error('Error logging in:', error);

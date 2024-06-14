@@ -19,6 +19,12 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.isAuthenticated = this.authService.isAuthenticated();
     this.isAdmin = this.authService.getRole() === 'admin';
+
+    // Subscribe to the authStatus$ observable to update navbar on login/logout
+    this.authService.authStatus$.subscribe(status => {
+      this.isAuthenticated = status;
+      this.isAdmin = this.authService.getRole() === 'admin';
+    });
   }
 
   logout(): void {

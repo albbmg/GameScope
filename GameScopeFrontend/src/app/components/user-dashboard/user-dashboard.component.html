@@ -15,6 +15,9 @@
           <li><a routerLink="/favorites">Favoritos</a></li>
           <li><a routerLink="/pending-games">Juegos pendientes</a></li>
           <li><a routerLink="/reviews">Mis reseñas</a></li>
+          <li *ngIf="isAdmin"><a routerLink="/manage-users">Gestionar usuarios</a></li>
+          <li *ngIf="isAdmin"><a routerLink="/manage-video-games">Gestionar videojuegos</a></li>
+          <li *ngIf="isAdmin"><a routerLink="/manage-reviews">Gestionar reseñas</a></li>
         </ul>
         <button class="logout-button" (click)="logout()">Cerrar sesión</button>
       </div>
@@ -33,6 +36,8 @@
           </div>
           <button type="submit">Guardar cambios</button>
         </form>
+        <div class="success-message" *ngIf="updateSuccessMessage">{{ updateSuccessMessage }}</div>
+        <div class="error-message" *ngIf="updateErrorMessage">{{ updateErrorMessage }}</div>
       </section>
 
       <div class="game-lists">
@@ -68,6 +73,7 @@
           </div>
         </section>
       </div>
+      <router-outlet></router-outlet> <!-- Añadir esta línea -->
     </main>
   </div>
 </div>

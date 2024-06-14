@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\DB; // Importar DB para manejar transacciones
 
 class UserController extends Controller
 {
@@ -61,5 +62,45 @@ class UserController extends Controller
         }
 
         return response()->json(['imageUrl' => asset('storage/' . $path)]);
+    }
+
+    public function index()
+    {
+        return User::all();
+    }
+
+    public function updateRole(Request $request, User $user)
+    {
+        $request->validate([
+            'role' => 'required|string|in:admin,user'
+        ]);
+
+        $user->role = $request->role;
+        $user->save();
+
+        return response()->json($user);
+    }
+
+    public function destroy(User $user)
+    {
+        try {
+            DB::beginTransaction();
+
+            // Elimina las relaciones del usuario con otras tablas si es necesario
+            // Ejemplo: Eliminar reviews del usuario
+            $user->reviews()->delete();
+
+            // Elimina cualquier otra relación asociada aquí
+            // ...
+
+            $user->delete();
+
+            DB::commit();
+
+            return response()->json(null, 204);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Error al eliminar el usuario', 'error' => $e->getMessage()], 500);
+        }
     }
 }

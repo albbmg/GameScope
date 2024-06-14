@@ -1,1 +1,64 @@
-<p>manage-users works!</p>
+<div class="dashboard">
+    <header class="dashboard-header">
+      <div class="logo">
+        <img src="assets/images/trabajo-fin-de-master-gamescope.png" alt="GameScope Logo" class="logo-image" (click)="goToProfile()">
+      </div>
+      <button class="profile-button" (click)="goToProfile()">{{ user?.first_name || 'Usuario' }}</button>
+    </header>
+  
+    <div class="dashboard-body">
+      <aside class="dashboard-sidebar">
+        <div class="profile-info">
+          <img [src]="user?.profile_image || 'assets/images/trabajo-fin-de-master-gamescope.png'" alt="Profile Image" class="profile-image">
+          <ul class="sidebar-menu">
+            <li><a routerLink="/user-dashboard">Mi perfil</a></li>
+            <li><a routerLink="/favorites">Favoritos</a></li>
+            <li><a routerLink="/pending-games">Juegos pendientes</a></li>
+            <li><a routerLink="/reviews">Mis reseñas</a></li>
+            <li *ngIf="isAdmin"><a routerLink="/manage-users">Gestionar usuarios</a></li>
+            <li *ngIf="isAdmin"><a routerLink="/manage-video-games">Gestionar videojuegos</a></li>
+            <li *ngIf="isAdmin"><a routerLink="/manage-reviews">Gestionar reseñas</a></li>
+          </ul>
+          <button class="logout-button" (click)="logout()">Cerrar sesión</button>
+        </div>
+      </aside>
+  
+      <main class="dashboard-main">
+        <section class="manage-users-section">
+          <h2>Gestionar Usuarios</h2>
+          <div class="search-container">
+            <input type="text" [(ngModel)]="searchQuery" placeholder="Buscar usuarios..." />
+            <button (click)="onSearch()">Buscar</button>
+            <button (click)="onResetFilters()">Restablecer filtros</button>
+          </div>
+  
+          <div class="user-list">
+            <div *ngFor="let user of users" class="user-item">
+              <p>{{ user.first_name }} {{ user.last_name }} - {{ user.email }}</p>
+              <button (click)="updateRole(user.id, user.role)">
+                {{ user.role === 'admin' ? 'Quitar permisos de administrador' : 'Hacer administrador' }}
+              </button>
+              <button (click)="deleteUser(user.id)">Eliminar</button>
+            </div>
+          </div>
+  
+          <div class="add-user">
+            <h3>Añadir Usuario</h3>
+            <form [formGroup]="addUserForm" (ngSubmit)="addUser()">
+              <input type="text" formControlName="firstName" placeholder="Nombre" />
+              <input type="text" formControlName="lastName" placeholder="Apellidos" />
+              <input type="text" formControlName="phone" placeholder="Teléfono" />
+              <input type="email" formControlName="email" placeholder="Correo electrónico" />
+              <input type="password" formControlName="password" placeholder="Contraseña" />
+              <input type="password" formControlName="password_confirmation" placeholder="Confirmar contraseña" />
+              <button type="submit" [disabled]="addUserForm.invalid">Añadir Usuario</button>
+            </form>
+          </div>
+  
+          <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+          <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+        </section>
+      </main>
+    </div>
+  </div>
+  

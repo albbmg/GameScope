@@ -49,4 +49,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/pending', [VideoGameController::class, 'getPendingGames']);
 
     Route::get('/user-reviews', [ReviewController::class, 'getUserReviews']);
+
+    Route::get('/users', [UserController::class, 'index']);
+    Route::put('/users/{user}/role', [UserController::class, 'updateRole']);
+    Route::delete('/users/{user}', [UserController::class, 'destroy']);
 });

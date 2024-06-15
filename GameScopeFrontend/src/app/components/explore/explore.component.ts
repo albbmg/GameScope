@@ -13,26 +13,26 @@ import { RouterModule } from '@angular/router';
 })
 export class ExploreComponent implements OnInit {
   videoGames: any[] = [];
-  displayedVideoGames: any[] = [];
-  selectedGames: any[] = [];
-  gamesPerPage: number = 12;
-  currentPage: number = 0;
+  currentPage: number = 1;
+  pageSize: number = 12;
   compareMode: boolean = false;
+  selectedGames: any[] = [];
 
   constructor(private videoGamesService: VideoGamesService, private router: Router) { }
 
   ngOnInit(): void {
-    this.videoGamesService.getVideoGames().subscribe(data => {
-      this.videoGames = data;
-      this.loadMoreGames();
+    this.loadVideoGames();
+  }
+
+  loadVideoGames(): void {
+    this.videoGamesService.getVideoGames(this.currentPage, this.pageSize).subscribe(data => {
+      this.videoGames = this.videoGames.concat(data);
     });
   }
 
   loadMoreGames(): void {
-    const startIndex = this.currentPage * this.gamesPerPage;
-    const endIndex = startIndex + this.gamesPerPage;
-    this.displayedVideoGames = this.displayedVideoGames.concat(this.videoGames.slice(startIndex, endIndex));
     this.currentPage++;
+    this.loadVideoGames();
   }
 
   toggleCompareMode(): void {

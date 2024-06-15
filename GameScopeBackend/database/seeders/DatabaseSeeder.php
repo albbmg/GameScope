@@ -13,10 +13,10 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             VideoGameSeeder::class,
             ReviewSeeder::class,
-            ComparisonSeeder::class,
-            FavoriteSeeder::class
+            //ComparisonSeeder::class,
+            FavoriteSeeder::class,
         ]);
-        
+
         User::factory()->create([
             'username' => 'Test User',
             'email' => 'test@example.com',

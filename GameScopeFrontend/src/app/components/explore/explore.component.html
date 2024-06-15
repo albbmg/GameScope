@@ -3,7 +3,7 @@
   <button class="compare-button" (click)="toggleCompareMode()">COMPARAR</button>
   <div class="video-games-container">
     <div class="video-game-card"
-         *ngFor="let game of displayedVideoGames"
+         *ngFor="let game of videoGames"
          [class.selected]="isGameSelected(game)"
          (click)="compareMode ? toggleSelectGame(game) : null">
       <a [routerLink]="['/video-game', game.id]" *ngIf="!compareMode">

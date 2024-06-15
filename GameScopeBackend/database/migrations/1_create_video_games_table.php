@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('platform');
             $table->year('release_year');
             $table->string('image')->nullable();
-            $table->decimal('rating', 2, 1)->default(0); 
             $table->decimal('graphics', 2, 1)->default(0); 
             $table->decimal('gameplay', 2, 1)->default(0); 
             $table->decimal('story', 2, 1)->default(0); 

@@ -43,37 +43,15 @@
       <div class="game-lists">
         <section class="favorites-section">
           <h2>⭐ FAVORITOS</h2>
-          <div class="game-list">
-            <div class="game-item" *ngFor="let game of favorites">
-              <img [src]="game.image" alt="{{ game.name }}">
-              <div class="game-info">
-                <h3>{{ game.name }}</h3>
-                <p>{{ game.description }}</p>
-                <div class="stars">
-                  <span *ngFor="let star of [1, 2, 3, 4, 5]" class="star" [class.filled]="star <= game.rating">★</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <app-video-games [videoGames]="favorites" [fetchGames]="false"></app-video-games>
         </section>
 
         <section class="pending-section">
           <h2>LISTA: Pendientes jugar</h2>
-          <div class="game-list">
-            <div class="game-item" *ngFor="let game of pendingGames">
-              <img [src]="game.image" alt="{{ game.name }}">
-              <div class="game-info">
-                <h3>{{ game.name }}</h3>
-                <p>{{ game.description }}</p>
-                <div class="stars">
-                  <span *ngFor="let star of [1, 2, 3, 4, 5]" class="star" [class.filled]="star <= game.rating">★</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <app-video-games [videoGames]="pendingGames" [fetchGames]="false"></app-video-games>
         </section>
       </div>
-      <router-outlet></router-outlet> <!-- Añadir esta línea -->
+      <router-outlet></router-outlet>
     </main>
   </div>
 </div>

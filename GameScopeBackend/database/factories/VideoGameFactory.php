@@ -20,7 +20,6 @@ class VideoGameFactory extends Factory
             'release_year' => $this->faker->year,
             'image' => $this->faker->imageUrl(),
             'is_favorite' => $this->faker->boolean,
-            'rating' => $this->faker->randomFloat(1, 0, 5),
             'graphics' => $this->faker->randomFloat(1, 0, 5),
             'gameplay' => $this->faker->randomFloat(1, 0, 5),
             'story' => $this->faker->randomFloat(1, 0, 5),

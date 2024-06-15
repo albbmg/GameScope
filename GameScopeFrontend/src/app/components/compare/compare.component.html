@@ -10,9 +10,12 @@
           <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= game1.rating">★</span>
         </div>
         <div class="criteria">
-          <p>Gráficos: {{ game1.graphics }}/10</p>
-          <p>Jugabilidad: {{ game1.gameplay }}/10</p>
-          <p>Historia: {{ game1.story }}/10</p>
+          <p>Gráficos: {{ formatValue(game1.graphics) }}/10</p>
+          <app-progress-bar [value]="game1.graphics || 0" [color]="'grey'"></app-progress-bar>
+          <p>Jugabilidad: {{ formatValue(game1.gameplay) }}/10</p>
+          <app-progress-bar [value]="game1.gameplay || 0" [color]="'grey'"></app-progress-bar>
+          <p>Historia: {{ formatValue(game1.story) }}/10</p>
+          <app-progress-bar [value]="game1.story || 0" [color]="'grey'"></app-progress-bar>
         </div>
       </div>
     </div>
@@ -25,9 +28,12 @@
           <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= game2.rating">★</span>
         </div>
         <div class="criteria">
-          <p>Gráficos: {{ game2.graphics }}/10</p>
-          <p>Jugabilidad: {{ game2.gameplay }}/10</p>
-          <p>Historia: {{ game2.story }}/10</p>
+          <p>Gráficos: {{ formatValue(game2.graphics) }}/10</p>
+          <app-progress-bar [value]="game2.graphics || 0" [color]="getBarColor(game1.graphics, game2.graphics)"></app-progress-bar>
+          <p>Jugabilidad: {{ formatValue(game2.gameplay) }}/10</p>
+          <app-progress-bar [value]="game2.gameplay || 0" [color]="getBarColor(game1.gameplay, game2.gameplay)"></app-progress-bar>
+          <p>Historia: {{ formatValue(game2.story) }}/10</p>
+          <app-progress-bar [value]="game2.story || 0" [color]="getBarColor(game1.story, game2.story)"></app-progress-bar>
         </div>
       </div>
     </div>

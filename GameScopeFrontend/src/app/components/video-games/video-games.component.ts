@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { VideoGamesService } from '../../services/video-games.service';
@@ -12,13 +12,27 @@ import { RouterModule } from '@angular/router';
   imports: [CommonModule, HttpClientModule, RouterModule]
 })
 export class VideoGamesComponent implements OnInit {
-  videoGames: any[] = [];
+  @Input() videoGames: any[] = [];
+  @Input() fetchGames: boolean = true; 
+  currentPage: number = 1;
+  pageSize: number = 8;
 
   constructor(private videoGamesService: VideoGamesService) { }
 
   ngOnInit(): void {
-    this.videoGamesService.getVideoGames().subscribe(data => {
-      this.videoGames = data;
+    if (this.fetchGames && this.videoGames.length === 0) {
+      this.loadVideoGames();
+    }
+  }
+
+  loadVideoGames(): void {
+    this.videoGamesService.getVideoGames(this.currentPage, this.pageSize).subscribe(data => {
+      this.videoGames = this.videoGames.concat(data);
     });
+  }
+
+  loadMoreGames(): void {
+    this.currentPage++;
+    this.loadVideoGames();
   }
 }

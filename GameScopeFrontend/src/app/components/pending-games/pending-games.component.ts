@@ -2,28 +2,29 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { VideoGamesService } from '../../services/video-games.service';
-import { AuthService } from '../../services/auth.service'; // Importar AuthService
+import { AuthService } from '../../services/auth.service';
+import { VideoGamesComponent } from '../video-games/video-games.component';
 
 @Component({
   selector: 'app-pending-games',
   templateUrl: './pending-games.component.html',
   styleUrls: ['./pending-games.component.css'],
   standalone: true,
-  imports: [CommonModule, RouterModule]
+  imports: [CommonModule, RouterModule, VideoGamesComponent]
 })
 export class PendingGamesComponent implements OnInit {
   pendingGames: any[] = [];
-  isAdmin: boolean = false; // Añadir esta línea
+  isAdmin: boolean = false;
 
   constructor(
     private videoGamesService: VideoGamesService,
     private router: Router,
-    private authService: AuthService // Añadir AuthService aquí
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.loadPendingGames();
-    this.checkAdmin(); // Añadir esta línea
+    this.checkAdmin();
   }
 
   loadPendingGames(): void {
@@ -36,7 +37,7 @@ export class PendingGamesComponent implements OnInit {
   }
 
   checkAdmin(): void {
-    this.isAdmin = this.authService.getRole() === 'admin'; // Añadir esta línea
+    this.isAdmin = this.authService.getRole() === 'admin';
   }
 
   goToProfile(): void {

@@ -8,9 +8,10 @@ use Illuminate\Support\Facades\Auth;
 
 class VideoGameController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return VideoGame::all();
+        $pageSize = $request->input('pageSize', 8);
+        return VideoGame::with('reviews')->paginate($pageSize);
     }
 
     public function store(Request $request)
@@ -42,7 +43,7 @@ class VideoGameController extends Controller
 
         // Calculate the average rating
         $averageRating = $videoGame->reviews()->avg('rating');
-        $videoGame->rating = $averageRating;
+        $videoGame->average_rating = $averageRating; // No lo guardes, solo lo utilizas temporalmente
 
         return $videoGame;
     }
@@ -130,7 +131,7 @@ class VideoGameController extends Controller
 
         $game = VideoGame::findOrFail($request->input('game_id'));
         $newRating = $request->input('rating');
-        $game->rating = ($game->rating * $game->rating_count + $newRating) / ($game->rating_count + 1);
+        $game->average_rating = ($game->average_rating * $game->rating_count + $newRating) / ($game->rating_count + 1);
         $game->rating_count++;
         $game->save();
 
@@ -149,3 +150,4 @@ class VideoGameController extends Controller
         return response()->json($user->pending()->get());
     }
 }
+

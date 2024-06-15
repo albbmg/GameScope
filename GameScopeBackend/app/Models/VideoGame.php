@@ -14,7 +14,7 @@ class VideoGame extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'name', 'description', 'developer', 'genre', 'platform', 'release_year', 'image', 'rating', 'rating_count', 'graphics', 'gameplay', 'story'
+        'name', 'description', 'developer', 'genre', 'platform', 'release_year', 'image', 'graphics', 'gameplay', 'story'
     ];
 
     public function reviews()
@@ -36,5 +36,4 @@ class VideoGame extends Model
     {
         return $this->belongsToMany(User::class, 'favorite_video_games', 'video_game_id', 'user_id');
     }
-
 }

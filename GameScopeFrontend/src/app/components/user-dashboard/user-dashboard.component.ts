@@ -4,22 +4,23 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { VideoGamesService } from '../../services/video-games.service';
-import { AuthService } from '../../services/auth.service'; // Importar AuthService
+import { AuthService } from '../../services/auth.service';
+import { VideoGamesComponent } from '../video-games/video-games.component';
 
 @Component({
   selector: 'app-user-dashboard',
   templateUrl: './user-dashboard.component.html',
   styleUrls: ['./user-dashboard.component.css'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule]
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, VideoGamesComponent]
 })
 export class UserDashboardComponent implements OnInit {
   user: any;
   profileForm: FormGroup;
   successMessage: string = '';
   errorMessage: string = '';
-  updateSuccessMessage: string = ''; 
-  updateErrorMessage: string = '';   
+  updateSuccessMessage: string = '';
+  updateErrorMessage: string = '';
   favorites: any[] = [];
   pendingGames: any[] = [];
   profileControls: { name: string, placeholder: string }[] = [
@@ -31,14 +32,14 @@ export class UserDashboardComponent implements OnInit {
     { name: 'newPassword_confirmation', placeholder: 'Confirmar nueva contraseña' }
   ];
 
-  isAdmin: boolean = false; // Añadir esta línea
+  isAdmin: boolean = false;
 
   constructor(
     private userService: UserService,
     private videoGamesService: VideoGamesService,
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService // Añadir el AuthService aquí
+    private authService: AuthService
   ) {
     this.profileForm = this.fb.group({
       firstName: ['', Validators.required],
@@ -54,7 +55,7 @@ export class UserDashboardComponent implements OnInit {
     this.loadUserData();
     this.loadFavorites();
     this.loadPendingGames();
-    this.checkAdmin(); // Añadir esta línea
+    this.checkAdmin();
   }
 
   passwordMatchValidator(group: FormGroup): any {
@@ -83,7 +84,10 @@ export class UserDashboardComponent implements OnInit {
   loadFavorites(): void {
     this.videoGamesService.getFavorites().subscribe({
       next: data => {
-        this.favorites = data;
+        this.favorites = data.map((game: any) => {
+          game.rating = this.calculateAverageRating(game.reviews);
+          return game;
+        });
       },
       error: error => console.error('Error al cargar los juegos favoritos', error)
     });
@@ -92,14 +96,25 @@ export class UserDashboardComponent implements OnInit {
   loadPendingGames(): void {
     this.videoGamesService.getPendingGames().subscribe({
       next: data => {
-        this.pendingGames = data;
+        this.pendingGames = data.map((game: any) => {
+          game.rating = this.calculateAverageRating(game.reviews);
+          return game;
+        });
       },
       error: error => console.error('Error al cargar los juegos pendientes', error)
     });
   }
 
+  calculateAverageRating(reviews: any[]): number {
+    if (reviews && reviews.length > 0) {
+      const sum = reviews.reduce((acc: number, review: any) => acc + review.rating, 0);
+      return sum / reviews.length;
+    }
+    return 0;
+  }
+
   checkAdmin(): void {
-    this.isAdmin = this.authService.getRole() === 'admin'; // Añadir esta línea
+    this.isAdmin = this.authService.getRole() === 'admin';
   }
 
   updateProfile(): void {
@@ -113,22 +128,20 @@ export class UserDashboardComponent implements OnInit {
 
       this.userService.updateUser(formData).subscribe({
         next: response => {
-          console.log('Perfil actualizado', response);
           this.successMessage = '¡Información del perfil actualizada con éxito!';
           this.errorMessage = '';
-          this.updateSuccessMessage = '¡Perfil actualizado con éxito!'; 
+          this.updateSuccessMessage = '¡Perfil actualizado con éxito!';
           setTimeout(() => {
             this.successMessage = '';
-            this.updateSuccessMessage = ''; 
+            this.updateSuccessMessage = '';
           }, 3000);
         },
         error: error => {
-          console.error('Error al actualizar el perfil', error);
           this.errorMessage = 'Error al actualizar el perfil. Por favor, inténtalo de nuevo.';
-          this.updateErrorMessage = 'Error al actualizar el perfil'; 
+          this.updateErrorMessage = 'Error al actualizar el perfil';
           setTimeout(() => {
             this.errorMessage = '';
-            this.updateErrorMessage = ''; 
+            this.updateErrorMessage = '';
           }, 3000);
         }
       });
@@ -145,19 +158,18 @@ export class UserDashboardComponent implements OnInit {
         this.user.profile_image = response.imageUrl;
         this.successMessage = '¡Se ha actualizado la imagen del perfil con éxito!';
         this.errorMessage = '';
-        this.updateSuccessMessage = '¡Imagen del perfil actualizada!'; 
+        this.updateSuccessMessage = '¡Imagen del perfil actualizada!';
         setTimeout(() => {
           this.successMessage = '';
-          this.updateSuccessMessage = ''; 
+          this.updateSuccessMessage = '';
         }, 3000);
       },
       error: error => {
-        console.error('Error al subir la imagen del perfil', error);
         this.errorMessage = 'Error al subir la imagen del perfil. Por favor, inténtalo de nuevo.';
-        this.updateErrorMessage = 'Error al subir la imagen del perfil'; 
+        this.updateErrorMessage = 'Error al subir la imagen del perfil';
         setTimeout(() => {
           this.errorMessage = '';
-          this.updateErrorMessage = ''; 
+          this.updateErrorMessage = '';
         }, 3000);
       }
     });

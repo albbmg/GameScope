@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
 
 @Component({
   selector: 'app-compare',
   templateUrl: './compare.component.html',
   styleUrls: ['./compare.component.css'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, ProgressBarComponent]
 })
 export class CompareComponent implements OnInit {
   game1: any = null;
@@ -22,7 +23,20 @@ export class CompareComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
 
+  getBarColor(value1: number, value2: number): string {
+    if (value1 < value2) {
+      return 'green';
+    } else if (value1 > value2) {
+      return 'red';
+    } else {
+      return 'grey';
+    }
+  }
+
+  formatValue(value: any): string {
+    const numValue = Number(value);
+    return !isNaN(numValue) ? numValue.toFixed(1) : '0.0';
   }
 }

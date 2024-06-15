@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ import { Observable } from 'rxjs';
 export class VideoGamesService {
   private apiUrl = 'http://localhost:8000/api';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('access_token');
@@ -17,12 +18,39 @@ export class VideoGamesService {
     });
   }
 
-  getVideoGames(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/video-games`, { headers: this.getHeaders() });
+  getVideoGames(page: number = 1, pageSize: number = 8): Observable<any> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('pageSize', pageSize.toString());
+    return this.http.get<any>(`${this.apiUrl}/video-games`, { headers: this.getHeaders(), params }).pipe(
+      switchMap((response: any) => this.calculateRatingsForGames(response.data))
+    );
   }
 
   getVideoGameById(id: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/video-games/${id}`, { headers: this.getHeaders() });
+    return this.http.get<any>(`${this.apiUrl}/video-games/${id}`, { headers: this.getHeaders() }).pipe(
+      switchMap((game: any) => this.calculateRatingForGame(game))
+    );
+  }
+
+  calculateRatingsForGames(games: any[]): Observable<any[]> {
+    const gamesWithRatings$ = games.map(game => this.calculateRatingForGame(game));
+    return forkJoin(gamesWithRatings$);
+  }
+
+  calculateRatingForGame(game: any): Observable<any> {
+    return this.getReviewsByGameId(game.id).pipe(
+      map(reviews => {
+        const totalRating = reviews.reduce((acc: number, review: any) => acc + review.rating, 0);
+        game.rating = reviews.length ? totalRating / reviews.length : 0;
+        return game;
+      })
+    );
+  }
+
+  getReviewsByGameId(gameId: string): Observable<any> {
+    const params = new HttpParams().set('game_id', gameId);
+    return this.http.get<any[]>(`${this.apiUrl}/reviews`, { headers: this.getHeaders(), params });
   }
 
   addVideoGame(game: any): Observable<any> {
@@ -35,11 +63,6 @@ export class VideoGamesService {
 
   deleteVideoGame(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/video-games/${id}`, { headers: this.getHeaders() });
-  }
-
-  getReviewsByGameId(gameId: string): Observable<any> {
-    const params = new HttpParams().set('game_id', gameId);
-    return this.http.get(`${this.apiUrl}/reviews`, { headers: this.getHeaders(), params });
   }
 
   addReview(gameId: string, content: string, rating: number): Observable<any> {

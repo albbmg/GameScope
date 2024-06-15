@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
             'username' => 'usuario',
             'privacy_settings' => 'public',
             'role' => 'user',
-            'profile_image' => '/assets/images/trabajo-fin-de-master-gamescope.png',
+            'profile_image' => 'profile_images/trabajo-fin-de-master-gamescope.png',
             'remember_token' => \Str::random(10),
         ]);
 
@@ -36,11 +36,13 @@ class UserSeeder extends Seeder
             'username' => 'admin',
             'privacy_settings' => 'public',
             'role' => 'admin',
-            'profile_image' => '/assets/images/trabajo-fin-de-master-gamescope.png',
+            'profile_image' => 'profile_images/trabajo-fin-de-master-gamescope.png',
             'remember_token' => \Str::random(10),
         ]);
 
         // Crear usuarios adicionales
-        User::factory()->count(10)->create();
+        User::factory()->count(10)->create([
+            'profile_image' => '/assets/images/trabajo-fin-de-master-gamescope.png',
+        ]);
     }
 }

@@ -5,7 +5,7 @@
       <h2>{{ game1.name }}</h2>
       <img [src]="game1.image || 'path/to/default-image.jpg'" alt="{{ game1.name }}">
       <div class="ratings">
-        <p>Calificación: {{ game1.rating }}/5</p>
+        <p>Calificación: {{ formatRating(game1.rating) }}/5</p>
         <div class="stars">
           <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= game1.rating">★</span>
         </div>
@@ -23,7 +23,7 @@
       <h2>{{ game2.name }}</h2>
       <img [src]="game2.image || 'path/to/default-image.jpg'" alt="{{ game2.name }}">
       <div class="ratings">
-        <p>Calificación: {{ game2.rating }}/5</p>
+        <p>Calificación: {{ formatRating(game2.rating) }}/5</p>
         <div class="stars">
           <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= game2.rating">★</span>
         </div>

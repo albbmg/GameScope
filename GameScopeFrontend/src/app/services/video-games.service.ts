@@ -99,12 +99,25 @@ export class VideoGamesService {
     return this.http.get(`${this.apiUrl}/pending/status`, { headers: this.getHeaders(), params });
   }
 
-  searchVideoGames(searchQuery: string, releaseYear: number | null): Observable<any> {
+  searchVideoGames(searchQuery: string, releaseYear: number | null, genre: string | null, developer: string | null, platform: string | null): Observable<any> {
     let params = new HttpParams().set('searchQuery', searchQuery);
     if (releaseYear !== null) {
       params = params.set('releaseYear', releaseYear.toString());
     }
+    if (genre !== null) {
+      params = params.set('genre', genre);
+    }
+    if (developer !== null) {
+      params = params.set('developer', developer);
+    }
+    if (platform !== null) {
+      params = params.set('platform', platform);
+    }
     return this.http.get(`${this.apiUrl}/search`, { headers: this.getHeaders(), params });
+  }
+
+  getFilters(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/filters`, { headers: this.getHeaders() });
   }
 
   getMultipleVideoGames(ids: string[]): Observable<any> {

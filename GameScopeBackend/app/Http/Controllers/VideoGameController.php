@@ -85,6 +85,18 @@ class VideoGameController extends Controller
             $query->where('release_year', $request->input('releaseYear'));
         }
 
+        if ($request->has('genre')) {
+            $query->where('genre', $request->input('genre'));
+        }
+
+        if ($request->has('developer')) {
+            $query->where('developer', $request->input('developer'));
+        }
+
+        if ($request->has('platform')) {
+            $query->where('platform', $request->input('platform'));
+        }
+
         $videoGames = $query->get();
 
         return response()->json($videoGames);
@@ -149,5 +161,17 @@ class VideoGameController extends Controller
         $user = Auth::user();
         return response()->json($user->pending()->get());
     }
-}
 
+    public function getFilters()
+    {
+        $genres = VideoGame::select('genre')->distinct()->pluck('genre');
+        $developers = VideoGame::select('developer')->distinct()->pluck('developer');
+        $platforms = VideoGame::select('platform')->distinct()->pluck('platform');
+
+        return response()->json([
+            'genres' => $genres,
+            'developers' => $developers,
+            'platforms' => $platforms,
+        ]);
+    }
+}

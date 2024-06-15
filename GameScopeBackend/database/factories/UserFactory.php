@@ -21,7 +21,7 @@ class UserFactory extends Factory
             'username' => $this->faker->userName(),
             'privacy_settings' => 'public',
             'role' => 'user',
-            'profile_image' => $this->faker->imageUrl(640, 480, 'people', true),
+            'profile_image' => '/assets/images/trabajo-fin-de-master-gamescope.png',
             'remember_token' => Str::random(10),
         ];
     }

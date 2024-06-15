@@ -30,7 +30,7 @@ class VideoGameSeeder extends Seeder
                 'genre' => 'Acción-aventura',
                 'platform' => 'PlayStation 4',
                 'release_year' => 2018,
-                'image' => '/assets/images/video_games/god_of_war.jpg',
+                'image' => '/assets/images/video_games/god_of_war.webp',
                 'is_favorite' => true,
                 'graphics' => 9.9,
                 'gameplay' => 8,

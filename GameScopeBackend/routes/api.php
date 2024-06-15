@@ -12,6 +12,7 @@ use App\Http\Controllers\PendingController;
 Route::get('/video-games', [VideoGameController::class, 'index']);
 Route::get('/video-games/{id}', [VideoGameController::class, 'show']);
 Route::get('/search', [VideoGameController::class, 'search']);
+Route::get('/filters', [VideoGameController::class, 'getFilters']); // Nueva ruta
 Route::get('/reviews', [ReviewController::class, 'index']);
 Route::get('/reviews/{id}', [ReviewController::class, 'show']);
 

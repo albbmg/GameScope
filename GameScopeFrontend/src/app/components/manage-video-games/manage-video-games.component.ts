@@ -17,6 +17,10 @@ import { RouterModule } from '@angular/router';
 export class ManageVideoGamesComponent implements OnInit {
   videoGames: any[] = [];
   searchQuery: string = '';
+  genre: string | null = null;
+  developer: string | null = null;
+  platform: string | null = null;
+  releaseYear: number | null = null;
   addOrUpdateGameForm: FormGroup;
   successMessage: string = '';
   errorMessage: string = '';
@@ -62,18 +66,18 @@ export class ManageVideoGamesComponent implements OnInit {
   }
 
   onSearch(): void {
-    if (this.searchQuery) {
-      this.videoGamesService.searchVideoGames(this.searchQuery, null).subscribe({
-        next: data => this.videoGames = data,
-        error: error => console.error('Error al buscar videojuegos', error)
-      });
-    } else {
-      this.loadVideoGames();
-    }
+    this.videoGamesService.searchVideoGames(this.searchQuery, this.releaseYear, this.genre, this.developer, this.platform).subscribe({
+      next: data => this.videoGames = data,
+      error: error => console.error('Error al buscar videojuegos', error)
+    });
   }
 
   onResetFilters(): void {
     this.searchQuery = '';
+    this.genre = null;
+    this.developer = null;
+    this.platform = null;
+    this.releaseYear = null;
     this.loadVideoGames();
   }
 

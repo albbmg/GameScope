@@ -39,4 +39,9 @@ export class CompareComponent implements OnInit {
     const numValue = Number(value);
     return !isNaN(numValue) ? numValue.toFixed(1) : '0.0';
   }
+
+  formatRating(value: any): string {
+    const numValue = Number(value);
+    return !isNaN(numValue) ? numValue.toFixed(1) : '0.0';
+  }
 }

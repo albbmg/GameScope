@@ -19,6 +19,11 @@ import { ManageUsersComponent } from './components/manage-users/manage-users.com
 import { ManageVideoGamesComponent } from './components/manage-video-games/manage-video-games.component';
 import { ManageReviewsComponent } from './components/manage-reviews/manage-reviews.component';
 import { AuthGuard } from './guards/auth.guard';
+import { LegalNoticeComponent } from './components/legal-notice/legal-notice.component';
+import { CookiesPolicyComponent } from './components/cookies-policy/cookies-policy.component';
+import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
+import { TermsOfUseComponent } from './components/terms-of-use/terms-of-use.component';
+import { SitemapComponent } from './components/sitemap/sitemap.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -37,6 +42,11 @@ export const routes: Routes = [
   { path: 'manage-users', component: ManageUsersComponent, canActivate: [AuthGuard], data: { role: 'admin' } },
   { path: 'manage-video-games', component: ManageVideoGamesComponent, canActivate: [AuthGuard], data: { role: 'admin' } },
   { path: 'manage-reviews', component: ManageReviewsComponent, canActivate: [AuthGuard], data: { role: 'admin' } },
+  { path: 'legal-notice', component: LegalNoticeComponent },
+  { path: 'cookies-policy', component: CookiesPolicyComponent },
+  { path: 'privacy-policy', component: PrivacyPolicyComponent },
+  { path: 'terms-of-use', component: TermsOfUseComponent },
+  { path: 'sitemap', component: SitemapComponent },
   { path: '**', redirectTo: '' }
 ];
 

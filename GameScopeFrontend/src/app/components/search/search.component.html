@@ -1,22 +1,33 @@
 <div class="search-container">
-    <form (ngSubmit)="onSearch()">
-      <input type="text" [(ngModel)]="searchQuery" name="searchQuery" placeholder="Buscar videojuegos...">
-      <input type="number" [(ngModel)]="releaseYear" name="releaseYear" placeholder="Año de lanzamiento">
-      <button type="submit">Buscar</button>
-      <button type="button" (click)="onResetFilters()">Restablecer filtros</button>
-    </form>
-  
-    <div class="video-games-container">
-      <div class="video-game-card" *ngFor="let game of videoGames">
-        <a [routerLink]="['/video-game', game.id]">
-          <img [src]="game.image || 'path/to/default-image.jpg'" alt="{{ game.name }}" class="game-image">
-          <h3>{{ game.name }}</h3>
-          <p>{{ game.genre }}</p>
-          <div class="rating">
-            <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= game.rating">★</span>
-          </div>
-        </a>
-      </div>
+  <form (ngSubmit)="onSearch()">
+    <input type="text" [(ngModel)]="searchQuery" name="searchQuery" placeholder="Buscar videojuegos...">
+    <input type="number" [(ngModel)]="releaseYear" name="releaseYear" placeholder="Año de lanzamiento">
+    <select [(ngModel)]="genre" name="genre">
+      <option value="" disabled selected>Selecciona género</option>
+      <option *ngFor="let g of genres" [value]="g">{{ g }}</option>
+    </select>
+    <select [(ngModel)]="developer" name="developer">
+      <option value="" disabled selected>Selecciona desarrollador</option>
+      <option *ngFor="let d of developers" [value]="d">{{ d }}</option>
+    </select>
+    <select [(ngModel)]="platform" name="platform">
+      <option value="" disabled selected>Selecciona plataforma</option>
+      <option *ngFor="let p of platforms" [value]="p">{{ p }}</option>
+    </select>
+    <button type="submit">Buscar</button>
+    <button type="button" (click)="onResetFilters()">Restablecer filtros</button>
+  </form>
+
+  <div class="video-games-container">
+    <div class="video-game-card" *ngFor="let game of videoGames">
+      <a [routerLink]="['/video-game', game.id]">
+        <img [src]="game.image || 'path/to/default-image.jpg'" alt="{{ game.name }}" class="game-image">
+        <h3>{{ game.name }}</h3>
+        <p>{{ game.genre }}</p>
+        <div class="rating">
+          <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.filled]="star <= game.rating">★</span>
+        </div>
+      </a>
     </div>
   </div>
-  
+</div>

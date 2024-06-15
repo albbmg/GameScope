@@ -26,9 +26,9 @@ export class CompareComponent implements OnInit {
   ngOnInit(): void {}
 
   getBarColor(value1: number, value2: number): string {
-    if (value1 < value2) {
+    if (value2 > value1) {
       return 'green';
-    } else if (value1 > value2) {
+    } else if (value2 < value1) {
       return 'red';
     } else {
       return 'grey';

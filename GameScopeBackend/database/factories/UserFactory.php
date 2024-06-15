@@ -13,15 +13,15 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'first_name' => fake()->firstName(),
-            'last_name' => fake()->lastName(),
-            'phone' => fake()->phoneNumber(),
-            'email' => fake()->unique()->safeEmail(),
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'phone' => $this->faker->phoneNumber(),
+            'email' => $this->faker->unique()->safeEmail(),
             'password' => self::$password ?? (self::$password = Hash::make('password')),
-            'username' => fake()->userName(),
+            'username' => $this->faker->userName(),
             'privacy_settings' => 'public',
             'role' => 'user',
-            'profile_image' => fake()->imageUrl(640, 480, 'people', true),
+            'profile_image' => $this->faker->imageUrl(640, 480, 'people', true),
             'remember_token' => Str::random(10),
         ];
     }

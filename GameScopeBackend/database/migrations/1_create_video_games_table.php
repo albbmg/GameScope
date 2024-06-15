@@ -12,14 +12,14 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('developer');
-            $table->string('description');
+            $table->text('description');
             $table->string('genre');
             $table->string('platform');
             $table->year('release_year');
             $table->string('image')->nullable();
-            $table->decimal('graphics', 2, 1)->default(0); 
-            $table->decimal('gameplay', 2, 1)->default(0); 
-            $table->decimal('story', 2, 1)->default(0); 
+            $table->decimal('graphics', 3, 1)->default(0); 
+            $table->decimal('gameplay', 3, 1)->default(0); 
+            $table->decimal('story', 3, 1)->default(0); 
             $table->boolean('is_favorite')->default(false); 
             $table->timestamps();
         });

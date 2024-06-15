@@ -1,7 +1,8 @@
 footer {
-    background-color: #f8f8f8;
-    padding: 20px;
-    text-align: center;
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  padding: 20px;
+  text-align: center;
   }
   
   footer ul {
@@ -16,7 +17,7 @@ footer {
   
   footer ul li a {
     text-decoration: none;
-    color: #333;
+    color: var(--color-secondary);
   }
   
   footer ul li a:hover {
@@ -25,6 +26,5 @@ footer {
   
   footer p {
     margin-top: 10px;
-    color: #666;
   }
   

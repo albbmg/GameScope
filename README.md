@@ -1,10 +1,10 @@
 # GameScope
 
-GameScope es una aplicación web para comparar videojuegos. 
+GameScope, plataforma web interactiva capaz de facilitar a los usuarios la búsqueda, análisis y comparación de videojuegos. Asimismo, también integra un módulo de reseñas y calificaciones para incentivar la participación de la comunidad y proveer feedback de calidad.
 
 ## Requisitos
 
-- PHP 7.4 o superior
+- PHP 8.2 o superior
 - Composer
 - Node.js 14 o superior
 - Angular CLI
@@ -64,13 +64,19 @@ php artisan serve
 ```
 ### Configurar el frontend (Angular)
 
-1. Instalar las dependencias de Node.js utilizando npm:
+1. En caso de no tener Angukar CLI instalado globalmente, instalarlo:
+
+```bash
+npm install -g @angular/cli
+```
+
+2. Instalar las dependencias de Node.js utilizando npm:
 
 ```bash
 npm install
 ```
 
-2. Iniciar el servidor de desarrollo de Angular:
+3. Iniciar el servidor de desarrollo de Angular:
 
 ```bash
 ng serve
@@ -84,7 +90,7 @@ ng serve
 - Seeders: Poblan la base de datos con datos iniciales.
 - Factories: Generan datos ficticios para pruebas.
 - Controladores: Manejan las solicitudes HTTP y devuelven respuestas adecuadas.
-Modelos: Representan las entidades de la base de datos y sus relaciones.
+- Modelos: Representan las entidades de la base de datos y sus relaciones.
 
 ### Frontend (Angular)
 - Componentes: Definen la estructura y lógica de la interfaz de usuario.

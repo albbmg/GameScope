@@ -38,16 +38,15 @@
             </thead>
             <tbody>
               <tr *ngFor="let review of reviews">
-                <td>{{ review.user?.first_name }} {{ review.user?.last_name }}</td>
-                <td>{{ review.content }}</td>
-                <td>
+              <td>{{ review.user?.first_name }} {{ review.user?.last_name }}</td>
+              <td>{{ review.content }}</td>
+              <td>
                   <button (click)="deleteReview(review.id)">Eliminar</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </main>
-    </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
   </div>
-  
+</div>

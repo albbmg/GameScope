@@ -1,71 +1,70 @@
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    text-align: center;
-  }
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  }  
   
-  h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
+.video-games-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.compare-button {
+  margin-top: 20px
+}
   
+.video-game-card {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  text-align: center;
+  width: 200px;
+  margin: 10px;
+  overflow: hidden;
+  cursor: pointer;
+}
   
-  .video-games-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-  }
-  
-  .video-game-card {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    text-align: center;
-    width: 200px;
-    margin: 10px;
-    overflow: hidden;
-    cursor: pointer;
-  }
-  
-  .video-game-card.selected {
+.video-game-card.selected {
     border-color: #007bff;
-  }
+}
   
-  .video-games-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-  }
+.video-games-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
   
-  .video-game-card {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    text-align: center;
-    width: 200px;
-  }
+.video-game-card {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  text-align: center;
+  width: 200px;
+}
   
-  .game-image {
-    width: 100%;
-    height: auto;
-    border-radius: 5px;
-  }
+.game-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 5px;
+}
   
-  .rating {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-  }
+.rating {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
   
-  .star {
-    font-size: 20px;
-    color: #ddd;
-  }
+.star {
+  font-size: 20px;
+  color: #ddd;
+}
   
-  .star.filled {
-    color: #f39c12;
-  }
+.star.filled {
+  color: #f39c12;
+}
   

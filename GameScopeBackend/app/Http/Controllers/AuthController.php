@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User; // Asegúrate de importar la clase User
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log; // Importa la clase Log
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -59,13 +59,13 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'role' => $user->role, // Añadimos el rol del usuario a la respuesta
+            'role' => $user->role,
         ]);
     }
 
     public function logout(Request $request)
     {
-        Log::info('Logout request received for user: ' . $request->user()->id); // Agrega este registro de log
+        Log::info('Logout request received for user: ' . $request->user()->id);
         $request->user()->tokens()->delete();
         return response()->json(['message' => 'Logout successful'], 200);
     }

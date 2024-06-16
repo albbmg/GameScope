@@ -143,7 +143,6 @@ button.delete:hover {
   background-color: #ff0000;
 }
 
-/* Responsive Styles */
 @media (max-width: 768px) {
   .dashboard-body {
     flex-direction: column;

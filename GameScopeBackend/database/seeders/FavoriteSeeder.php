@@ -11,10 +11,8 @@ class FavoriteSeeder extends Seeder
 {
     public function run()
     {
-        // Eliminar todos los registros de la tabla favorite_video_games
         Favorite::query()->delete();
 
-        // Asegúrate de que existan usuarios y videojuegos antes de crear favoritos
         $users = User::all();
         $videoGames = VideoGame::all();
 

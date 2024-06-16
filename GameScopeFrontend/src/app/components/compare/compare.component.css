@@ -1,49 +1,57 @@
 .compare-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    text-align: center;
-  }
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
   
-  .games-comparison {
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-  }
+.games-comparison {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  gap: 10px
+}
   
-  .game-details {
-    width: 45%;
-    border: 1px solid #ddd;
-    padding: 15px;
-    border-radius: 5px;
-    text-align: center;
-  }
+.game-details {
+  width: 45%;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 5px;
+  text-align: center;
+}
   
-  .game-details img {
-    max-width: 100%;
-    border-radius: 5px;
-  }
+.game-details img {
+  max-width: 100%;
+  border-radius: 5px;
+}
   
-  .ratings {
+.ratings {
     margin-top: 10px;
-  }
+}
   
-  .stars {
-    display: flex;
-    justify-content: center;
-    margin-top: 5px;
-  }
+.stars {
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+}
   
-  .star {
-    font-size: 20px;
-    color: #ddd;
-  }
+.star {
+  font-size: 20px;
+  color: #ddd;
+}
   
-  .star.filled {
-    color: #f39c12;
-  }
+.star.filled {
+  color: #f39c12;
+}
   
-  .criteria p {
-    margin: 5px 0;
+.criteria p {
+  margin: 5px 0;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 30px;
   }
-  
+  h2 {
+    font-size: 18px;
+  }
+}

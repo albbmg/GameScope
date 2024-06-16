@@ -20,7 +20,7 @@ export class ManageReviewsComponent implements OnInit {
 
   constructor(
     private reviewService: ReviewService,
-    public authService: AuthService // Cambiar a public
+    public authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -32,7 +32,7 @@ export class ManageReviewsComponent implements OnInit {
   loadReviews(): void {
     this.reviewService.getReviews().subscribe({
       next: (data: any) => {
-        console.log(data); // Verificar los datos recibidos
+        console.log(data); 
         this.reviews = data;
       },
       error: error => {

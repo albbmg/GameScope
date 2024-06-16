@@ -40,10 +40,8 @@ class VideoGameController extends Controller
     public function show($id)
     {
         $videoGame = VideoGame::with('reviews')->findOrFail($id);
-
-        // Calculate the average rating
         $averageRating = $videoGame->reviews()->avg('rating');
-        $videoGame->average_rating = $averageRating; // No lo guardes, solo lo utilizas temporalmente
+        $videoGame->average_rating = $averageRating; 
 
         return $videoGame;
     }
@@ -106,7 +104,6 @@ class VideoGameController extends Controller
     {
         $videoGame = VideoGame::findOrFail($id);
 
-        // Eliminar las reseñas asociadas al videojuego
         $videoGame->reviews()->delete();
 
         $videoGame->delete();

@@ -27,6 +27,7 @@ h1 {
   font-size: var(--font-size-large);
   font-weight: 900;
   margin: 0;
+  line-height: 80px;
 }
 
 h2 {
@@ -204,5 +205,9 @@ body > app-root > app-pending-games > div > div > main > section > app-video-gam
 @media (max-width: 768px) {
   :root {
     --font-size-large: 50px;
+  }
+
+  h1 {
+    line-height: 50px;
   }
 }

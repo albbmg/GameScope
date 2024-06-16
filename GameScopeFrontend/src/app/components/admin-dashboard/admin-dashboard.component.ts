@@ -18,7 +18,7 @@ export class AdminDashboardComponent implements OnInit {
   successMessage: string = '';
   errorMessage: string = '';
   updateSuccessMessage: string = ''; 
-  updateErrorMessage: string = '';  
+  updateErrorMessage: string = ''; 
   favorites: any[] = [];
   pendingGames: any[] = [];
   profileControls: { name: string, placeholder: string }[] = [

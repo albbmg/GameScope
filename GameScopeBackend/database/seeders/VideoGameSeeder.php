@@ -276,7 +276,6 @@ class VideoGameSeeder extends Seeder
             VideoGame::create($game);
         }
 
-        // Generar videojuegos ficticios
         VideoGame::factory()->count(5)->create();
     }
 }

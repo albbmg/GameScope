@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Facades\DB; // Importar DB para manejar transacciones
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -51,7 +51,6 @@ class UserController extends Controller
 
         $user = Auth::user();
         if ($request->hasFile('profileImage')) {
-            // Delete old profile image if exists
             if ($user->profile_image) {
                 Storage::disk('public')->delete($user->profile_image);
             }
@@ -85,18 +84,9 @@ class UserController extends Controller
     {
         try {
             DB::beginTransaction();
-
-            // Elimina las relaciones del usuario con otras tablas si es necesario
-            // Ejemplo: Eliminar reviews del usuario
             $user->reviews()->delete();
-
-            // Elimina cualquier otra relación asociada aquí
-            // ...
-
             $user->delete();
-
             DB::commit();
-
             return response()->json(null, 204);
         } catch (\Exception $e) {
             DB::rollBack();

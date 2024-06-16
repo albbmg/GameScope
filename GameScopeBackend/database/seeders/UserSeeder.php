@@ -9,10 +9,8 @@ class UserSeeder extends Seeder
 {
     public function run()
     {
-        // Eliminar todos los registros de la tabla users y restablecer la clave primaria
         User::query()->delete();
 
-        // Crear el usuario estándar
         User::create([
             'first_name' => 'Usuario',
             'last_name' => 'Usuario',
@@ -26,7 +24,6 @@ class UserSeeder extends Seeder
             'remember_token' => \Str::random(10),
         ]);
 
-        // Crear el usuario administrador
         User::create([
             'first_name' => 'Admin',
             'last_name' => 'Admin',
@@ -40,7 +37,6 @@ class UserSeeder extends Seeder
             'remember_token' => \Str::random(10),
         ]);
 
-        // Crear usuarios adicionales
         User::factory()->count(10)->create([
             'profile_image' => '/assets/images/trabajo-fin-de-master-gamescope.png',
         ]);

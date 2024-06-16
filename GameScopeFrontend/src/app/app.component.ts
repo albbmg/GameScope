@@ -42,5 +42,5 @@ import { AdminDashboardComponent } from './components/admin-dashboard/admin-dash
   ]
 })
 export class AppComponent {
-  title = 'GameScopeFrontend';
+  title = 'GameScope';
 }

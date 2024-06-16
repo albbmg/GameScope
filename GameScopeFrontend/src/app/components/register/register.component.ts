@@ -20,7 +20,7 @@ export class RegisterComponent {
     this.registerForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      phone: ['', [Validators.required, Validators.pattern('^[0-9]+$')]], // Validación para números de teléfono
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       password_confirmation: ['', Validators.required]
@@ -35,7 +35,7 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       this.authService.register(this.registerForm.value).subscribe(
         response => {
-          this.router.navigate(['/login']); // Redirigir al login
+          this.router.navigate(['/login']);
         },
         error => {
           console.error('Error registering user:', error);

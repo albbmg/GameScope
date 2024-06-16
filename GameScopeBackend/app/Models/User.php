@@ -54,7 +54,6 @@ class User extends Authenticatable
         }
     }
 
-    // Método para verificar si el usuario es administrador
     public function isAdmin()
     {
         return $this->role === 'admin';

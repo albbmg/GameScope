@@ -3,28 +3,27 @@ footer {
   color: var(--color-secondary);
   padding: 20px;
   text-align: center;
-  }
+}
   
-  footer ul {
-    list-style: none;
-    padding: 0;
-  }
+footer ul {
+  list-style: none;
+  padding: 0;
+}
   
-  footer ul li {
-    display: inline;
-    margin: 0 10px;
-  }
+footer ul li {
+  display: inline;
+  margin: 0 10px;
+}
   
-  footer ul li a {
-    text-decoration: none;
-    color: var(--color-secondary);
-  }
+footer ul li a {
+  text-decoration: none;
+  color: var(--color-secondary);
+}
   
-  footer ul li a:hover {
-    text-decoration: underline;
-  }
+footer ul li a:hover {
+  text-decoration: underline;
+}
   
-  footer p {
-    margin-top: 10px;
-  }
-  
+footer p {
+  margin-top: 10px;
+}

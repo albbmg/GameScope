@@ -14,9 +14,9 @@ import { VideoGamesService } from '../../services/video-games.service';
 export class SearchComponent implements OnInit {
   searchQuery: string = '';
   releaseYear: number | null = null;
-  genre: string | null = ''; // Initialize with empty string
-  developer: string | null = ''; // Initialize with empty string
-  platform: string | null = ''; // Initialize with empty string
+  genre: string | null = ''; 
+  developer: string | null = ''; 
+  platform: string | null = ''; 
   videoGames: any[] = [];
   genres: string[] = [];
   developers: string[] = [];
@@ -45,9 +45,9 @@ export class SearchComponent implements OnInit {
   onResetFilters(): void {
     this.searchQuery = '';
     this.releaseYear = null;
-    this.genre = ''; // Reset to empty string
-    this.developer = ''; // Reset to empty string
-    this.platform = ''; // Reset to empty string
+    this.genre = ''; 
+    this.developer = ''; 
+    this.platform = ''; 
     this.onSearch();
   }
 }

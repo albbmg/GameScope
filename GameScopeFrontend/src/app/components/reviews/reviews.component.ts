@@ -37,7 +37,7 @@ export class ReviewsComponent implements OnInit {
   loadUserProfile(): void {
     this.authService.getUser().subscribe(user => {
       this.user = user;
-      this.isAdmin = user.role === 'admin'; // Check if the user is an admin
+      this.isAdmin = user.role === 'admin';
     });
   }
 

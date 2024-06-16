@@ -14,7 +14,6 @@ class PendingController extends Controller
             'video_game_id' => 'required|integer|exists:video_games,id',
         ]);
 
-        // Verificar si el juego ya está en pendientes para este usuario
         $existingPending = Pending::where('user_id', Auth::id())
             ->where('video_game_id', $request->video_game_id)
             ->first();

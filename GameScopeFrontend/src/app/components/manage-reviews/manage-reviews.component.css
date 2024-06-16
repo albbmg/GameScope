@@ -3,28 +3,27 @@
   flex-direction: column;
   height: 100vh;
   width: 100%;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-family);
 }
 
 .dashboard-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #010625;
+  background-color: var(--color-primary);
   padding: 10px;
 }
 
 .logo-image {
   height: 60px;
   cursor: pointer;
+  background-color: var(--color-secondary);
 }
 
 .profile-button {
-  background-color: #010625;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  font-size: 20px;
+  background-color: var(--color-secondary);
+  color: var(--color-primary); 
+  width: 145px;
 }
 
 .dashboard-body {
@@ -34,13 +33,14 @@
 }
 
 .dashboard-sidebar {
-  background-color: #010625;
-  color: #fff;
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 250px;
+  position: sticky; 
 }
 
 .profile-info {
@@ -54,6 +54,7 @@
   height: 100px;
   border-radius: 50%;
   margin-bottom: 20px;
+  background-color: var(--color-secondary);
 }
 
 .sidebar-menu {
@@ -68,18 +69,15 @@
 }
 
 .sidebar-menu a {
-  color: #fff;
+  color: var(--color-secondary);
   text-decoration: none;
-  font-size: 20px;
+  font-size: var(--font-size-small);
 }
 
 .logout-button {
-  background-color: #010625;
-  color: #fff;
-  border: none;
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
   cursor: pointer;
-  font-size: 20px;
-  margin-top: auto;
 }
 
 .dashboard-main {
@@ -90,6 +88,9 @@
 
 .reviews-container {
   width: 100%;
+  background-color: var(--color-background);
+  padding: 20px;
+  border-radius: var(--border-radius);
 }
 
 table {
@@ -108,28 +109,44 @@ th {
 
 button {
   background-color: #ff4d4d;
-  color: white;
+  color: var(--color-secondary);
   border: none;
   cursor: pointer;
   padding: 5px 10px;
+  border-radius: var(--border-radius);
+  transition: background-color var(--transition-duration);
 }
 
 button:hover {
   background-color: #ff0000;
 }
 
-.stars {
-  color: #FFD700;
-}
 
-.star.filled {
-  color: #FFD700;
-}
+@media (max-width: 768px) {
+  .dashboard-body {
+    flex-direction: column;
+  }
 
-.success-message {
-  color: green;
-}
+  .dashboard-sidebar {
+    width: 100%;
+    padding: 10px;
+  }
 
-.error-message {
-  color: red;
+  .sidebar-menu a {
+    font-size: var(--font-size-xsmall);
+  }
+
+  .dashboard-main {
+    padding: 10px;
+    flex-direction: column; 
+  }
+
+  .reviews-container {
+    padding: 10px;
+  }
+
+  th, td {
+    padding: 5px;
+  }
+
 }

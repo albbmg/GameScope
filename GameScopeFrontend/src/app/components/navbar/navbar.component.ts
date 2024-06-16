@@ -13,6 +13,7 @@ import { AuthService } from '../../services/auth.service';
 export class NavbarComponent implements OnInit {
   isAuthenticated: boolean = false;
   isAdmin: boolean = false;
+  menuActive: boolean = false;
 
   constructor(private authService: AuthService) {}
 
@@ -20,11 +21,14 @@ export class NavbarComponent implements OnInit {
     this.isAuthenticated = this.authService.isAuthenticated();
     this.isAdmin = this.authService.getRole() === 'admin';
 
-    // Subscribe to the authStatus$ observable to update navbar on login/logout
     this.authService.authStatus$.subscribe(status => {
       this.isAuthenticated = status;
       this.isAdmin = this.authService.getRole() === 'admin';
     });
+  }
+
+  toggleMenu(): void {
+    this.menuActive = !this.menuActive;
   }
 
   logout(): void {

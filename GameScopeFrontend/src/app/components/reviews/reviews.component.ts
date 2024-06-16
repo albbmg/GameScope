@@ -15,7 +15,9 @@ export class ReviewsComponent implements OnInit {
   user: any;
   reviews: any[] = [];
   errorMessage: string = '';
+  successMessage: string = '';
   videoGames: any[] = [];
+  isAdmin: boolean = false;
 
   constructor(
     private videoGamesService: VideoGamesService,
@@ -29,6 +31,14 @@ export class ReviewsComponent implements OnInit {
       return;
     }
     this.loadUserReviews();
+    this.loadUserProfile();
+  }
+
+  loadUserProfile(): void {
+    this.authService.getUser().subscribe(user => {
+      this.user = user;
+      this.isAdmin = user.role === 'admin'; // Check if the user is an admin
+    });
   }
 
   loadUserReviews(): void {
@@ -64,6 +74,22 @@ export class ReviewsComponent implements OnInit {
         review.game = game;
       }
     });
+  }
+
+  deleteReview(id: string): void {
+    if (confirm('¿Estás seguro de que quieres eliminar esta reseña?')) {
+      this.videoGamesService.deleteReview(id).subscribe({
+        next: () => {
+          this.reviews = this.reviews.filter(review => review.id !== id);
+          this.successMessage = 'Reseña eliminada con éxito';
+          setTimeout(() => this.successMessage = '', 3000);
+        },
+        error: error => {
+          this.errorMessage = 'Error al eliminar la reseña';
+          setTimeout(() => this.errorMessage = '', 3000);
+        }
+      });
+    }
   }
 
   goToProfile(): void {

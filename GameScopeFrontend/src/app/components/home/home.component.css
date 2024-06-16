@@ -1,40 +1,100 @@
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    text-align: center;
-  }
-  
+  margin: 0 auto;
+  text-align: center;
+}
+
+.banner {
+  background: url('/assets/images/video_games/banner.webp') no-repeat center center;
+  background-size: cover;
+  padding: 50px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.banner-content {
+  background: rgba(255, 255, 255, 0.4);
+  padding: 50px;
+  border-radius: var(--border-radius);
+  text-align: left;
+  backdrop-filter: blur(10px);
+  width: 70%;
+}
+
+.banner h1 {
+  margin: 0;
+  font-size: var(--font-size-medium);
+  color: var(--color-secondary);
+  text-transform: uppercase;
+}
+
+.banner p {
+  margin: 20px 0 0;
+  font-size: var(--font-size-large);
+  color: var(--color-secondary);
+  font-weight: 900;
+  line-height: 80px;
+}
+
+.top-video-games {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.top-video-games h2 {
+  font-size: var(--font-size-medium);
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 20px;
+}
+
+.view-more {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: var(--font-size-small);
+  font-weight: 500;
+  text-transform: uppercase;
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  border: none;
+  cursor: pointer;
+  transition: background-color var(--transition-duration);
+  border-radius: var(--border-radius);
+}
+
+.view-more:hover {
+  background-color: var(--color-hover);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
   .banner {
-    background-color: #f8f8f8;
-    padding: 50px 20px;
-    margin-bottom: 20px;
-    text-align: left;
+    text-align: center;
+    padding: 20px
   }
-  
+
   .banner h1 {
-    margin: 0;
-    font-size: 48px;
+    font-size: var(--font-size-small);
   }
-  
+
   .banner p {
-    margin: 10px 0 0;
-    font-size: 24px;
+    font-size: var(--font-size-medium);
+    line-height: 30px;
   }
-  
-  .top-video-games {
-    margin-top: 20px;
-  }
-  
+
   .top-video-games h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: var(--font-size-small);
   }
-  
+
   .view-more {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
+    font-size: var(--font-size-xsmall);
   }
-  
+
+  .banner-content {
+    backdrop-filter: none;
+    padding: 20px
+  }
+}

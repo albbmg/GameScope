@@ -4,15 +4,16 @@
       <img src="assets/images/trabajo-fin-de-master-gamescope.png" alt="GameScope Logo">
     </a>
   </div>
-  <nav>
+  <button class="menu-toggle" (click)="toggleMenu()">☰</button>
+  <nav [class.active]="menuActive">
     <ul>
       <li><a routerLink="/">Inicio</a></li>
       <li><a routerLink="/explore">Explora</a></li>
       <li><a routerLink="/search">Búsqueda</a></li>
-      <li *ngIf="!isAuthenticated"><a routerLink="/register">Register</a></li>
-      <li *ngIf="!isAuthenticated"><a routerLink="/login">Login</a></li>
-      <li *ngIf="isAuthenticated && !isAdmin"><a routerLink="/user-dashboard">Mi perfil</a></li>
-      <li *ngIf="isAuthenticated && isAdmin"><a routerLink="/user-dashboard">Mi perfil</a></li>
+      <li *ngIf="!isAuthenticated"><a routerLink="/register" class="login">Register</a></li>
+      <li *ngIf="!isAuthenticated"><a routerLink="/login" class="login">Login</a></li>
+      <li *ngIf="isAuthenticated && !isAdmin"><a routerLink="/user-dashboard" class="dashboard">Mi perfil</a></li>
+      <li *ngIf="isAuthenticated && isAdmin"><a routerLink="/user-dashboard" class="dashboard">Mi perfil</a></li>
       <li *ngIf="isAuthenticated"><a (click)="logout()">Cerrar sesión</a></li>
     </ul>
   </nav>

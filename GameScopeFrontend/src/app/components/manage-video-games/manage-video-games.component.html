@@ -1,69 +1,70 @@
 <div class="dashboard">
-    <header class="dashboard-header">
-      <div class="logo">
-        <img src="assets/images/trabajo-fin-de-master-gamescope.png" alt="GameScope Logo" class="logo-image" (click)="goToProfile()">
+  <header class="dashboard-header">
+    <div class="logo">
+      <img src="assets/images/trabajo-fin-de-master-gamescope.png" alt="GameScope Logo" class="logo-image" (click)="goToProfile()">
+    </div>
+    <button class="profile-button" (click)="goToProfile()">{{ user?.first_name || 'Usuario' }}</button>
+  </header>
+
+  <div class="dashboard-body">
+    <aside class="dashboard-sidebar">
+      <div class="profile-info">
+        <img [src]="user?.profile_image || 'assets/images/trabajo-fin-de-master-gamescope.png'" alt="Profile Image" class="profile-image">
+        <ul class="sidebar-menu">
+          <li><a routerLink="/user-dashboard">Mi perfil</a></li>
+          <li><a routerLink="/favorites">Favoritos</a></li>
+          <li><a routerLink="/pending-games">Juegos pendientes</a></li>
+          <li><a routerLink="/reviews">Mis reseñas</a></li>
+          <li *ngIf="isAdmin"><a routerLink="/manage-users">Gestionar usuarios</a></li>
+          <li *ngIf="isAdmin"><a routerLink="/manage-video-games">Gestionar videojuegos</a></li>
+          <li *ngIf="isAdmin"><a routerLink="/manage-reviews">Gestionar reseñas</a></li>
+        </ul>
+        <button class="logout-button" (click)="logout()">Cerrar sesión</button>
       </div>
-      <button class="profile-button" (click)="goToProfile()">{{ user?.first_name || 'Usuario' }}</button>
-    </header>
-  
-    <div class="dashboard-body">
-      <aside class="dashboard-sidebar">
-        <div class="profile-info">
-          <img [src]="user?.profile_image || 'assets/images/trabajo-fin-de-master-gamescope.png'" alt="Profile Image" class="profile-image">
-          <ul class="sidebar-menu">
-            <li><a routerLink="/user-dashboard">Mi perfil</a></li>
-            <li><a routerLink="/favorites">Favoritos</a></li>
-            <li><a routerLink="/pending-games">Juegos pendientes</a></li>
-            <li><a routerLink="/reviews">Mis reseñas</a></li>
-            <li *ngIf="isAdmin"><a routerLink="/manage-users">Gestionar usuarios</a></li>
-            <li *ngIf="isAdmin"><a routerLink="/manage-video-games">Gestionar videojuegos</a></li>
-            <li *ngIf="isAdmin"><a routerLink="/manage-reviews">Gestionar reseñas</a></li>
-          </ul>
-          <button class="logout-button" (click)="logout()">Cerrar sesión</button>
+    </aside>
+
+    <main class="dashboard-main">
+      <section class="manage-video-games-section">
+        <h2>Gestionar Videojuegos</h2>
+        <div class="search-container">
+          <input type="text" [(ngModel)]="searchQuery" placeholder="Buscar videojuegos..." />
+          <button (click)="onSearch()">Buscar</button>
+          <button (click)="onResetFilters()">Restablecer filtros</button>
         </div>
-      </aside>
-  
-      <main class="dashboard-main">
-        <section class="manage-video-games-section">
-          <h2>Gestionar Videojuegos</h2>
-          <div class="search-container">
-            <input type="text" [(ngModel)]="searchQuery" placeholder="Buscar videojuegos..." />
-            <button (click)="onSearch()">Buscar</button>
-            <button (click)="onResetFilters()">Restablecer filtros</button>
-          </div>
-  
-          <div class="video-game-list">
-            <div *ngFor="let game of paginatedVideoGames" class="video-game-item">
-              <p>{{ game.name }} - {{ game.developer }}</p>
+
+        <div class="video-game-list">
+          <div *ngFor="let game of paginatedVideoGames" class="video-game-item">
+            <p>{{ game.name }} - {{ game.developer }}</p>
+            <div class="button-container">
               <button (click)="editGame(game)">Editar</button>
-              <button (click)="deleteGame(game.id)">Eliminar</button>
+              <button class="delete" (click)="deleteGame(game.id)">Eliminar</button>
             </div>
           </div>
-  
-          <div class="pagination-controls">
-            <button (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
-            <button (click)="nextPage()" [disabled]="currentPage * pageSize >= videoGames.length">Siguiente</button>
-          </div>
-  
-          <div class="add-update-video-game">
-            <h3>{{ addOrUpdateGameForm.get('id')?.value ? 'Actualizar Videojuego' : 'Añadir Videojuego' }}</h3>
-            <form [formGroup]="addOrUpdateGameForm" (ngSubmit)="addOrUpdateGame()">
-              <input type="text" formControlName="name" placeholder="Nombre" />
-              <input type="text" formControlName="description" placeholder="Descripción" />
-              <input type="text" formControlName="developer" placeholder="Desarrollador" />
-              <input type="text" formControlName="genre" placeholder="Género" />
-              <input type="text" formControlName="platform" placeholder="Plataforma" />
-              <input type="number" formControlName="release_year" placeholder="Año de lanzamiento" />
-              <button type="submit" [disabled]="addOrUpdateGameForm.invalid">
-                {{ addOrUpdateGameForm.get('id')?.value ? 'Actualizar' : 'Añadir' }}
-              </button>
-            </form>
-          </div>
-  
-          <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
-          <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-        </section>
-      </main>
-    </div>
+        </div>
+
+        <div class="pagination-controls">
+          <button (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
+          <button (click)="nextPage()" [disabled]="currentPage * pageSize >= videoGames.length">Siguiente</button>
+        </div>
+
+        <div class="add-update-video-game">
+          <h3>{{ addOrUpdateGameForm.get('id')?.value ? 'Actualizar Videojuego' : 'Añadir Videojuego' }}</h3>
+          <form [formGroup]="addOrUpdateGameForm" (ngSubmit)="addOrUpdateGame()">
+            <input type="text" formControlName="name" placeholder="Nombre" />
+            <input type="text" formControlName="description" placeholder="Descripción" />
+            <input type="text" formControlName="developer" placeholder="Desarrollador" />
+            <input type="text" formControlName="genre" placeholder="Género" />
+            <input type="text" formControlName="platform" placeholder="Plataforma" />
+            <input type="number" formControlName="release_year" placeholder="Año de lanzamiento" />
+            <button type="submit" [disabled]="addOrUpdateGameForm.invalid">
+              {{ addOrUpdateGameForm.get('id')?.value ? 'Actualizar' : 'Añadir' }}
+            </button>
+          </form>
+        </div>
+
+        <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+        <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+      </section>
+    </main>
   </div>
-  
+</div>

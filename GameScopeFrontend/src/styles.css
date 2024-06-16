@@ -2,9 +2,9 @@
   --font-family: 'Poppins', sans-serif;
   --color-primary: #010625;
   --color-secondary: #FFF;
-  --color-accent: #FFD700; /* Assuming the yellow stars color */
+  --color-accent: #FFD700;
   --color-background: #F5F5F5;
-  --color-hover: #000;
+  --color-hover: #536c7d;
   --font-size-large: 88px;
   --font-size-medium: 30px;
   --font-size-small: 20px;
@@ -13,19 +13,16 @@
   --transition-duration: 0.3s;
 }
 
-
-/* Global styles */
 body {
   font-family: var(--font-family);
   background-color: var(--color-background);
   color: var(--color-primary);
   max-width: 1440px;
   margin: 0 auto;
-  padding: 0;
+  padding: 0 10px 0 10px;
   box-sizing: border-box;
 }
 
-/* Headings */
 h1 {
   font-size: var(--font-size-large);
   font-weight: 900;
@@ -44,7 +41,6 @@ h3 {
   margin: 0;
 }
 
-/* Paragraphs */
 p {
   font-size: var(--font-size-small);
   font-weight: 400;
@@ -52,7 +48,6 @@ p {
   margin: 0;
 }
 
-/* Buttons */
 button {
   font-size: var(--font-size-small);
   font-weight: 500;
@@ -71,7 +66,6 @@ button:hover {
   background-color: var(--color-hover);
 }
 
-/* Inputs */
 input, select, textarea {
   font-size: var(--font-size-small);
   font-family: var(--font-family);
@@ -82,7 +76,24 @@ input, select, textarea {
   box-sizing: border-box;
 }
 
-/* Links */
+input, select {
+  width: calc(100% - 20px);
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+}
+
+button:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background-color: var(--color-hover);
+}
+
 a {
   color: var(--color-primary);
   text-decoration: none;
@@ -90,11 +101,6 @@ a {
 
 a:hover {
   text-decoration: underline;
-}
-
-/* Utility classes */
-.container {
-  padding: 20px;
 }
 
 .header {
@@ -126,22 +132,6 @@ a:hover {
   margin-bottom: 10px;
 }
 
-/* Navbar */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: var(--color-primary);
-  padding: 10px 20px;
-}
-
-.navbar a {
-  color: var(--color-secondary);
-  margin: 0 10px;
-  font-size: var(--font-size-small);
-}
-
-/* Card */
 .card {
   background-color: var(--color-secondary);
   border: 1px solid var(--color-primary);
@@ -176,7 +166,6 @@ a:hover {
   margin-bottom: 20px;
 }
 
-/* Ratings */
 .rating {
   display: flex;
   align-items: center;
@@ -187,7 +176,6 @@ a:hover {
   margin-right: 10px;
 }
 
-/* Footer */
 .footer {
   background-color: var(--color-primary);
   color: var(--color-secondary);
@@ -198,4 +186,23 @@ a:hover {
 .footer a {
   color: var(--color-secondary);
   margin: 0 5px;
+}
+
+body > app-root > app-favorites > div > div > main > section > app-video-games > div > div > a > div,
+body > app-root > app-user-dashboard > div > div > main > div > section.pending-section > app-video-games > div > div > a > div,
+body > app-root > app-user-dashboard > div > div > main > div > section.favorites-section > app-video-games > div > div > a > div,
+body > app-root > app-search > div > div > div > a > div,
+body > app-root > app-pending-games > div > div > main > section > app-video-games > div > div > a > div,
+body > app-root > app-user-dashboard > div > div > main > div > section.favorites-section > app-video-games > button, 
+body > app-root > app-user-dashboard > div > div > main > div > section.pending-section > app-video-games > button, 
+body > app-root > app-favorites > div > div > main > section > app-video-games > button, 
+body > app-root > app-pending-games > div > div > main > section > app-video-games > button {
+  display: none !important; 
+}
+
+
+@media (max-width: 768px) {
+  :root {
+    --font-size-large: 50px;
+  }
 }

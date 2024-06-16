@@ -15,7 +15,7 @@
       <option *ngFor="let p of platforms" [value]="p">{{ p }}</option>
     </select>
     <button type="submit">Buscar</button>
-    <button type="button" (click)="onResetFilters()">Restablecer filtros</button>
+    <button class="filter-button" type="button" (click)="onResetFilters()">Restablecer filtros</button>
   </form>
 
   <div class="video-games-container">

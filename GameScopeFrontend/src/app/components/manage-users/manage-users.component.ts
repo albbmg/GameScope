@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../services/user.service';
-import { AuthService } from '../../services/auth.service'; // Import the AuthService
-import { Router } from '@angular/router'; // Import the Router
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router'; // Import RouterModule for routing
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-manage-users',
   templateUrl: './manage-users.component.html',
   styleUrls: ['./manage-users.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule] // Include RouterModule
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterModule]
 })
 export class ManageUsersComponent implements OnInit {
   users: any[] = [];
@@ -21,13 +21,13 @@ export class ManageUsersComponent implements OnInit {
   successMessage: string = '';
   errorMessage: string = '';
   user: any;
-  isAdmin: boolean = false; // Define the isAdmin property
+  isAdmin: boolean = false;
 
   constructor(
     private userService: UserService,
-    private authService: AuthService, // Inject the AuthService
+    private authService: AuthService,
     private fb: FormBuilder,
-    private router: Router // Inject the Router
+    private router: Router
   ) {
     this.addUserForm = this.fb.group({
       firstName: ['', Validators.required],
@@ -41,13 +41,13 @@ export class ManageUsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadUsers();
-    this.loadUserProfile(); // Load the user profile on initialization
+    this.loadUserProfile();
   }
 
   loadUserProfile(): void {
     this.authService.getUser().subscribe(user => {
       this.user = user;
-      this.isAdmin = user.role === 'admin'; // Check if the user is an admin
+      this.isAdmin = user.role === 'admin';
     });
   }
 
@@ -96,18 +96,20 @@ export class ManageUsersComponent implements OnInit {
   }
 
   deleteUser(userId: string): void {
-    this.userService.deleteUser(userId).subscribe({
-      next: () => {
-        this.successMessage = 'Usuario eliminado';
-        setTimeout(() => this.successMessage = '', 3000);
-        this.loadUsers();
-      },
-      error: error => {
-        console.error('Error al eliminar el usuario', error);
-        this.errorMessage = 'Error al eliminar el usuario';
-        setTimeout(() => this.errorMessage = '', 3000);
-      }
-    });
+    if (confirm('¿Estás seguro de que quieres eliminar este usuario?')) {
+      this.userService.deleteUser(userId).subscribe({
+        next: () => {
+          this.successMessage = 'Usuario eliminado';
+          setTimeout(() => this.successMessage = '', 3000);
+          this.loadUsers();
+        },
+        error: error => {
+          console.error('Error al eliminar el usuario', error);
+          this.errorMessage = 'Error al eliminar el usuario';
+          setTimeout(() => this.errorMessage = '', 3000);
+        }
+      });
+    }
   }
 
   addUser(): void {

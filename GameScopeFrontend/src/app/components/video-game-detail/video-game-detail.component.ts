@@ -44,7 +44,7 @@ export class VideoGameDetailComponent implements OnInit {
           this.game = data;
           this.checkFavoriteStatus();
           this.checkPendingStatus();
-          this.loadReviews(); // Mover la carga de reseñas aquí
+          this.loadReviews();
         });
       }
     });
@@ -177,8 +177,8 @@ export class VideoGameDetailComponent implements OnInit {
           this.successMessage = 'Reseña añadida con éxito';
           setTimeout(() => this.successMessage = '', 3000);
           this.newReview = '';
-          this.newRating = 5; // Reset rating to default value
-          this.loadReviews(); // Recargar las reseñas después de añadir una nueva
+          this.newRating = 5;
+          this.loadReviews();
         },
         error: error => {
           this.errorMessage = 'Error al añadir la reseña';
@@ -194,7 +194,7 @@ export class VideoGameDetailComponent implements OnInit {
         next: () => {
           this.successMessage = 'Calificación registrada con éxito';
           setTimeout(() => this.successMessage = '', 3000);
-          this.loadReviews(); // Recargar las reseñas después de registrar una calificación
+          this.loadReviews();
         },
         error: error => {
           this.errorMessage = 'Error al registrar la calificación';
